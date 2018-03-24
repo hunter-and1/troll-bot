@@ -14,7 +14,7 @@ client.on('message', message => {
   	}
     
     if (message.content.startsWith('&getSV')) {
-        message.reply(listsv[0]);
+        message.reply(listsv[1]);
         return;
   	}
     
