@@ -7,6 +7,12 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
+
+     if (message.content.startsWith('?say')) {
+        message.channel.send('/tts '+message.content.replace('?say','')); 
+         return;
+  	}
+    
     if (message.content.startsWith('?add')) {
         var messagesplit = message.content.split(" ");
         listsv.push(messagesplit[1]);
