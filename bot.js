@@ -15,7 +15,7 @@ client.on('message', message => {
     if (message.content.startsWith('&getSV')) {
         var textreplay = "";
         for (var i = 1; i <= listsv.length; i++){
-            textreplay += i+' - '+listsv[i]+'\n';
+            textreplay += i+' - '+listsv[i-1]+'\n';
         }
         message.channel.send(textreplay);
   	}
