@@ -13,7 +13,7 @@ client.on('message', message => {
   }
     
   if (message.content.startsWith('?clan')) {
-    message.channel.send(message.author.toString().replace('@',"˜͙ᴹᴰ྅ཱི"));
+    message.channel.send("˜͙ᴹᴰ྅ཱི"+client.username);
   }
     
   if (message.content.startsWith('?add')) {
