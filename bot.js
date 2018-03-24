@@ -9,12 +9,12 @@ client.on('ready', () => {
 client.on('message', message => {
     if (message.content.startsWith('&addSV')) {
         var messagesplit = message.content.split(" ");
-        listsv.push(messagesplit[0]);
+        listsv.push(messagesplit[1]);
         return;
   	}
     
     if (message.content.startsWith('&getSV')) {
-        message.reply(listsv[1]);
+        message.reply(listsv[0]);
         return;
   	}
     
