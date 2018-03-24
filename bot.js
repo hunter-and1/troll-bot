@@ -9,7 +9,9 @@ client.on('ready', () => {
 client.on('message', message => {
 
      if (message.content.startsWith('?say')) {
-        message.channel.send('/tts '+message.content.replace('?say','')); 
+         message.channel.send(message.content.replace('?say',''), {
+             tts: true
+            });
          return;
   	}
     
