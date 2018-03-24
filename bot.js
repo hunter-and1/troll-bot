@@ -15,9 +15,9 @@ client.on('message', message => {
     if (message.content.startsWith('&getSV')) {
         var textreplay = "";
         for (var i = 1; i <= listsv.length; i++){
-            textreplay += i+' '+listsv[i];
+            textreplay += i+' '+listsv[i]+'\n';
         }
-        message.channel.send(listsv.toString());
+        message.channel.send(textreplay );
   	}
     
 });
