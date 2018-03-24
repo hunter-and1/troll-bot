@@ -13,7 +13,7 @@ client.on('message', message => {
   	}
     
     if (message.content.startsWith('&getSV')) {
-        message.reply(listsv[0]);
+        message.channel.send(listsv.toString());
   	}
     
 });
