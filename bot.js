@@ -21,6 +21,12 @@ client.on('message', message => {
   	}
     
    if (message.content.startsWith("?clear")) {
+       listsv = [];
+       message.channel.send("", {embed: {
+        title: "not have any sv",
+        color: 0x06DF00
+      });
+       /*
     if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply('⚠ | **لا يوجد لديك صلاحية لمسح الشات**');
         var msg;
         msg = parseInt();
@@ -30,7 +36,7 @@ client.on('message', message => {
         title: "Done | تــم مسح الشات",
         color: 0x06DF00,
         description: "تم مسح الرسائل "
-      }}).then(msg => {msg.delete(3000)});
+      }}).then(msg => {msg.delete(3000)});*/
      }
 });
 
