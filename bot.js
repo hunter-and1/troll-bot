@@ -10,6 +10,10 @@ client.on('message', message => {
     if (message.content.startsWith('?add')) {
         var messagesplit = message.content.split(" ");
         listsv.push(messagesplit[1]);
+        message.channel.send("", {embed: {
+            title: "this sv is added",
+            color: 0x06DF00
+        });
   	}
     
     if (message.content.startsWith('?sv')) {
@@ -18,13 +22,14 @@ client.on('message', message => {
             textreplay += i+' - '+listsv[i-1]+'\n';
         }
         message.channel.send(textreplay);
+        
   	}
     
    if (message.content.startsWith("?clear")) {
        listsv = [];
        message.channel.send("", {embed: {
         title: "not have any sv",
-        color: 0x06DF00
+        color: 0x00AE86
       });
        /*
     if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply('⚠ | **لا يوجد لديك صلاحية لمسح الشات**');
