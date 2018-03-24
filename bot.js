@@ -9,9 +9,9 @@ client.on('ready', () => {
 
 client.on('message', message => {
 
-  if (message.content.startsWith('?say')) {
-    message.channel.send(message.content.replace('?say',''), {tts: true});
-  }
+  //if (message.content.startsWith('?say')) {
+    //message.channel.send(message.content.replace('?say',''), {tts: true});
+  //}
     
   if (message.content.startsWith('?clan')) {
     message.channel.send("˜͙ᴹᴰ྅ཱི"+message.author.username);
