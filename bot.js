@@ -14,6 +14,10 @@ client.on('message', message => {
             });
   	}
     
+    if (message.content.startsWith('?clan')) {
+         message.channel.send("˜͙ᴹᴰ྅ཱི"+message.author);
+  	}
+    
     if (message.content.startsWith('?add')) {
         var messagesplit = message.content.split(" ");
         listsv.push(messagesplit[1]);
