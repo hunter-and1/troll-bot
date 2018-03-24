@@ -15,7 +15,7 @@ client.on('message', message => {
   	}
     
     if (message.content.startsWith('?clan')) {
-         message.channel.send("˜͙ᴹᴰ྅ཱི"+message.author);
+         message.channel.send("˜͙ᴹᴰ྅ཱི"+message.channel.server.detailsOf(message.author).nick);
   	}
     
     if (message.content.startsWith('?add')) {
