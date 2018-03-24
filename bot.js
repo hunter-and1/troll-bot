@@ -12,7 +12,6 @@ client.on('message', message => {
          message.channel.send(message.content.replace('?say',''), {
              tts: true
             });
-         return;
   	}
     
     if (message.content.startsWith('?add')) {
