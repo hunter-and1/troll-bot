@@ -7,12 +7,12 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
-    if (message.content.startsWith('&addSV')) {
+    if (message.content.startsWith('?add')) {
         var messagesplit = message.content.split(" ");
         listsv.push(messagesplit[1]);
   	}
     
-    if (message.content.startsWith('&getSV')) {
+    if (message.content.startsWith('?sv')) {
         var textreplay = "";
         for (var i = 1; i <= listsv.length; i++){
             textreplay += i+' - '+listsv[i-1]+'\n';
