@@ -4,6 +4,7 @@ var listsv = [];
 
 client.on('ready', () => {
   console.log('I am ready!');
+  client.user.setUsername("MD-Team");
 });
 
 client.on('message', message => {
