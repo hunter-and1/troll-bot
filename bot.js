@@ -38,12 +38,12 @@ client.on('message', message => {
     if(Math.round(Math.random()))
     {
       message.channel.send("Njma", {
-        file: "https://i.imgur.com/biqnpuf.png"
+        file: "https://i.imgur.com/TFCW1IG.png"
       });
     }
     else{
       message.channel.send("Ras", {
-        file: "https://i.imgur.com/SmB6UPx.png"
+        file: "https://i.imgur.com/BVwKciA.png"
       });      
     }
   }
