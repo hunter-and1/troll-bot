@@ -60,9 +60,9 @@ const commands = {
       voiceChannel.join().then(connection => resolve(connection)).catch(err => reject(err));
     });
   },
-  'zid': (msg) => {
+  'add': (msg) => {
     let url = msg.content.split(' ')[1];
-    if (url == '' || url === undefined) return msg.channel.sendMessage(`You must add a YouTube video url, or id after ${prefix}zid`);
+    if (url == '' || url === undefined) return msg.channel.sendMessage(`You must add a YouTube video url, or id after ${prefix}add`);
     yt.getInfo(url, (err, info) => {
       if(err) return msg.channel.sendMessage('Invalid YouTube Link: ' + err);
       if (!queue.hasOwnProperty(msg.guild.id)) queue[msg.guild.id] = {}, queue[msg.guild.id].playing = false, queue[msg.guild.id].songs = [];
@@ -86,7 +86,7 @@ const commands = {
   'clan':(msg)=>{
     msg.channel.send("˜͙ᴹᴰ྅ཱི"+msg.author.username);
   },
-  'add':(msg)=>{
+  'addsv':(msg)=>{
     var messagesplit = msg.content.split(" ");
     listsv.push(messagesplit[1]);
   },
