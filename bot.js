@@ -29,10 +29,25 @@ client.on('message', message => {
     
     message.channel.send(textreplay);
   }
-    
+
   if (message.content.startsWith("?clear")) {
     listsv = [];
   }
+
+  if (message.content.startsWith('?tfari9a')) {
+    if(Math.round(Math.random()))
+    {
+      message.channel.send("Njma", {
+        file: "https://i.imgur.com/biqnpuf.png"
+      });
+    }
+    else{
+      message.channel.send("Ras", {
+        file: "https://i.imgur.com/SmB6UPx.png"
+      });      
+    }
+  }
+    
 
 });
 
