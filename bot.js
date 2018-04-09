@@ -14,7 +14,7 @@ client.on('message', message => {
   //}
     
   if (message.content.startsWith('?clan')) {
-    message.channel.send("˜͙ᴹᴰ྅ཱི"+message.author.username);
+    message.channel.send("ᴹᴰ✮"+message.author.username);
   }
     
   if (message.content.startsWith('?add')) {
