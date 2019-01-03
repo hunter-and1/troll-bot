@@ -108,7 +108,7 @@ client.on('message', message => {
   }
 
   if (message.content.startsWith('?ping')) {
-      msg.channel.send({embed: {
+      message.channel.send({embed: {
           color: 0x2ed32e,
           fields: [{
               name: "Pong",
