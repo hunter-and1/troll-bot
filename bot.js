@@ -49,9 +49,8 @@ client.on('message', message => {
   }
     
   if (message.content.startsWith('?fight')) {
-    message.channel.send('test');
-    //user = user.split("@")[1].split(">")[0];
-    //message.channel.send(client.users.get(user).username);
+    user = message.content.split("@")[1].split(">")[0];
+    message.channel.send(client.users.get(user).username);
   }
     
 
