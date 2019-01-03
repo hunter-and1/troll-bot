@@ -106,6 +106,19 @@ client.on('message', message => {
   if(message.content.toLowerCase().indexOf("chkon amazighi") >= 0){
     message.channel.send('akbar noob 3rfato bachariya :D dab');
   }
+
+
+//?vote @dfsdfsd @sdfsdfsd
+if (message.content.startsWith('?vote')) {
+  var txt = message.content.replace(' ','?vote').trim();
+  var choix1 = txt.split(" ")[0];
+  var choix2 = txt.split(" ")[1];
+  message.channel.send("Vote :\n ***"+choix1+" ou "+""+choix2+"***")
+    .then(function (message) {
+      message.react("👍")
+      message.react("👎")
+    });
+}
   //if (message.content.startsWith('?fight')) {
   //  user1 = message.content.split("@")[1].split(" ")[0];
   //  user2 = message.content.split("@")[2].split(" ")[0];
