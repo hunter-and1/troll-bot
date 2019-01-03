@@ -48,6 +48,55 @@ client.on('message', message => {
     }
   }
     
+  if(message.content.toLowerCase().indexOf("dab") >= 0){
+    message.channel.send({files: [
+      {
+        attachment: 'images/DAB.jpeg',
+        name: "DAB.jpeg"
+      }
+    ]});
+  }
+  if(message.content.toLowerCase().indexOf("ree") >= 0){
+    message.channel.send({files: [
+      {
+        attachment: 'images/REE.gif',
+        name: "REE.gif"
+      }
+    ]});
+  }
+  if(message.content.toLowerCase().indexOf("??") >= 0){
+    message.channel.send({files: [
+      {
+        attachment: 'images/WHAT.png',
+        name: "WHAT.PNG"
+      }
+    ]});
+  }
+  if(message.content.toLowerCase().indexOf("oof") >= 0){
+    message.channel.send({files: [
+      {
+        attachment: 'images/OOF.png',
+        name: "OOF.png"
+      }
+    ]});
+  }
+  if(message.content.toLowerCase().indexOf("yeet") >= 0){
+    message.channel.send({files: [
+      {
+        attachment: 'images/YEET.png',
+        name: "YEET.png"
+      }
+    ]});
+  }
+  if(message.content.toLowerCase().indexOf("i mean") >= 0){
+    message.channel.send({files: [
+      {
+        attachment: 'images/MEAN.png',
+        name: "MEAN.png"
+      }
+    ]});
+  }
+  
   if (message.content.startsWith('?fight')) {
     user1 = message.content.split("@")[1].split(" ")[0];
     user2 = message.content.split("@")[2].split(" ")[0];
