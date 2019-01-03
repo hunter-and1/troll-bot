@@ -99,7 +99,7 @@ client.on('message', message => {
   }
 
   if (message.content.startsWith('?calu')) {
-    var math = message.content.split("?calu")[1];
+    var math = message.content.split(" ")[1];
     message.channel.send(eval(math));
   }
 
