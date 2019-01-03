@@ -110,7 +110,7 @@ client.on('message', message => {
 
 //?vote @dfsdfsd @sdfsdfsd
 if (message.content.startsWith('?vote')) {
-  var txt = message.content.replace(' ','?vote').trim();
+  var txt = message.content.replace('?vote','').trim();
   var choix1 = txt.split(" ")[0];
   var choix2 = txt.split(" ")[1];
   message.channel.send("Vote :\n ***"+choix1+" ou "+""+choix2+"***")
