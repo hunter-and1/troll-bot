@@ -88,6 +88,7 @@ client.on('message', message => {
       }
     ]});
   }
+
   if(message.content.toLowerCase().indexOf("i mean") >= 0){
     message.channel.send({files: [
       {
@@ -97,6 +98,14 @@ client.on('message', message => {
     ]});
   }
 
+  if (message.content.startsWith('?calu')) {
+    var math = message.content.split("?calu")[1];
+    message.channel.send(eval(math));
+  }
+
+  if(message.content.toLowerCase().indexOf("chkon amazighi") >= 0){
+    message.channel.send('akbar noob 3rfato bachariya :D dab');
+  }
   //if (message.content.startsWith('?fight')) {
   //  user1 = message.content.split("@")[1].split(" ")[0];
   //  user2 = message.content.split("@")[2].split(" ")[0];
