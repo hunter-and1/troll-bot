@@ -107,6 +107,16 @@ client.on('message', message => {
     message.channel.send('akbar noob 3rfato bachariya :D dab');
   }
 
+  if (message.content.startsWith('?ping')) {
+      msg.channel.send({embed: {
+          color: 0x2ed32e,
+          fields: [{
+              name: "Pong",
+              value: "My Ping: " + Math.round(client.ping) + ' ms'
+          }],
+      }
+    })
+  }
 
 //?vote @dfsdfsd @sdfsdfsd
 if (message.content.startsWith('?vote')) {
