@@ -98,15 +98,24 @@ client.on('message', message => {
     ]});
   }
 
+  if(message.content.toLowerCase().indexOf("chriff") >= 0){
+    message.channel.send({files: [
+      {
+        attachment: 'images/chriff.png',
+        name: "chriff.png"
+      }
+    ]});
+  }
+
   if (message.content.startsWith('?calu')) {
     var math = message.content.split(" ")[1];
     message.channel.send(eval(math));
   }
 
   if(message.content.toLowerCase().indexOf("chkon amazighi") >= 0){
-    message.channel.send('akbar noob 3rfato bachariya :D dab');
+    message.channel.send('houa chriff');
   }
-
+  /*
   if (message.content.startsWith('?ping')) {
       message.channel.send({embed: {
           color: 0x2ed32e,
@@ -116,7 +125,7 @@ client.on('message', message => {
           }],
       }
     })
-  }
+  }*/
 
 //?vote @dfsdfsd @sdfsdfsd
 if (message.content.startsWith('?vote')) {
