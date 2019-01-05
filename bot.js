@@ -138,12 +138,6 @@ if (message.content.startsWith('?vote')) {
       message.react("👎")
     });
 }
-  //if (message.content.startsWith('?fight')) {
-  //  user1 = message.content.split("@")[1].split(" ")[0];
-  //  user2 = message.content.split("@")[2].split(" ")[0];
-  //  message.channel.send(client.users.get(user1).username+' VS '+client.users.get(user2).username);
-  //}
-    
 
 });
 
