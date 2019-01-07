@@ -119,12 +119,12 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('audio/hmadi.mp3');
+          const dispatcher = connection.playFile('./audio/hmadi.mp3');
           dispatcher.on("end", end => {VC.leave()});
       }).catch(console.error);      
     }
     else
-     message.channel.send('You must be in a Voice Channel');
+    message.channel.send('You must be in a Voice Channel');
 
   } /**/
 
