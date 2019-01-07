@@ -1,15 +1,14 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 var listsv = [];
-var VC = null;
+
 client.on('ready', () => {
   console.log('I am ready!');
   client.user.setUsername("MD-Team");
-  VC = message.member.voiceChannel;
 });
 
 client.on('message', message => {
-  
+
   //if (message.content.startsWith('?say')) {
     //message.channel.send(message.content.replace('?say',''), {tts: true});
   //}
@@ -114,7 +113,7 @@ client.on('message', message => {
   }
 
   if (message.content.startsWith("uhmadi")) {
-    //var VC = message.member.voiceChannel;
+    var VC = message.member.voiceChannel;
     if (VC)
     {
       VC.join().then(connection => {
@@ -131,7 +130,7 @@ client.on('message', message => {
   }
 
   if (message.content.startsWith("u55")) {
-    //var VC = message.member.voiceChannel;
+    var VC = message.member.voiceChannel;
     if (VC)
     {
       VC.join().then(connection => {
@@ -149,7 +148,7 @@ client.on('message', message => {
 
 
   if (message.content.startsWith("uvitesse")) {
-    //var VC = message.member.voiceChannel;
+    var VC = message.member.voiceChannel;
     if (VC)
     {
       VC.join().then(connection => {
@@ -167,7 +166,7 @@ client.on('message', message => {
 
 
   if (message.content.startsWith("u3lachtkdb")) {
-    //var VC = message.member.voiceChannel;
+    var VC = message.member.voiceChannel;
     if (VC)
     {
       VC.join().then(connection => {
@@ -185,16 +184,15 @@ client.on('message', message => {
 
 
   if (message.content.startsWith("utisa3")) {
-
+    var VC = message.member.voiceChannel;
     if (VC)
     {
       VC.join().then(connection => {
           const dispatcher = connection.playFile('./audio/tisa3.mp3');
-          dispatcher.on("end", end => {
-            setTimeout(function(){ 
-                VC.leave()
-            }, 2000);
-          });
+          dispatcher.on(
+            'start', => {connection.player.streamingData.pausedTime = 0;},
+            'end', => {setTimeout(function(){VC.leave()}, 2000);}
+          );
       }).catch(console.error);      
     }
     else
@@ -203,7 +201,7 @@ client.on('message', message => {
 
 
   if (message.content.startsWith("usaricool")) {
-    //var VC = message.member.voiceChannel;
+    var VC = message.member.voiceChannel;
     if (VC)
     {
       VC.join().then(connection => {
