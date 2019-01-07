@@ -146,6 +146,20 @@ client.on('message', message => {
 
 
   if (message.content.startsWith("uvitesse")) {
+    var voiceChannel = message.member.voiceChannel;
+    if (!voiceChannel) {
+      return message.reply('You must be in a Voice Channel!');
+    }
+    voiceChannel.join().then(connection => {
+      //const dispatcher = connection.play("https://raw.githubusercontent.com/hunter-and1/troll-bot/master/audio/vitesse.ogg", { type: 'ogg/opus' });
+      const dispatcher = connection.play("./audio/vitesse.ogg", { type: 'ogg/opus' });
+      //dispatcher.setVolume(1);
+      dispatcher.on("end", end => {
+        voiceChannel.leave();
+      });
+    }).catch(err => console.log(err));
+
+    /*
     var VC = message.member.voiceChannel;
     if (VC)
     {
@@ -158,7 +172,7 @@ client.on('message', message => {
       }).catch(console.error);      
     }
     else
-    message.channel.send('You must be in a Voice Channel ');
+    message.channel.send('You must be in a Voice Channel ');*/
   }
 
 
