@@ -117,7 +117,7 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/hmadi.mp3');
+          const dispatcher = connection.playFile('./audio/hmadi.ogg');
           dispatcher.on(
             'start', start => {connection.player.streamingData.pausedTime = 0;},
             'end', end => {VC.leave();}
@@ -133,7 +133,7 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/55.mp3');
+          const dispatcher = connection.playFile('./audio/55.ogg');
           dispatcher.on(
             'start', start => {connection.player.streamingData.pausedTime = 0;},
             'end', end => {VC.leave();}
@@ -150,7 +150,7 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/vitesse.mp3');
+          const dispatcher = connection.playFile('./audio/vitesse.ogg');
           dispatcher.on(
             'start', start => {connection.player.streamingData.pausedTime = 0;},
             'end', end => {VC.leave();}
@@ -167,7 +167,7 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/3lachtkdb.mp3');
+          const dispatcher = connection.playFile('./audio/3lachtkdb.ogg');
           dispatcher.on(
             'start', start => {connection.player.streamingData.pausedTime = 0;},
             'end', end => {VC.leave();}
@@ -184,7 +184,7 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/tisa3.mp3');
+          const dispatcher = connection.playFile('./audio/tisa3.ogg');
           dispatcher.on(
             'start', start => {connection.player.streamingData.pausedTime = 0;},
             'end', end => {VC.leave();}
@@ -201,7 +201,7 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/saricoll.mp3');
+          const dispatcher = connection.playFile('./audio/saricoll.ogg');
           dispatcher.on(
             'start', start => {connection.player.streamingData.pausedTime = 0;},
             'end', end => {VC.leave();}
