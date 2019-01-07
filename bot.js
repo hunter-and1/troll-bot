@@ -127,6 +127,7 @@ client.on('message', message => {
   if(message.content.toLowerCase().indexOf("chkon amazighi") >= 0){
     message.channel.send('houa chriff');
   }
+
   /*
   if (message.content.startsWith('?ping')) {
       message.channel.send({embed: {
@@ -153,5 +154,4 @@ if (message.content.startsWith('?vote')) {
 
 });
 
-// THIS  MUST  BE  THIS  WAY
 client.login(process.env.BOT_TOKEN);
