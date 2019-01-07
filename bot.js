@@ -115,7 +115,7 @@ client.on('message', message => {
   if (message.content.toLowerCase().indexOf("hmadi")) {
     var VC = message.member.voiceChannel;
     if (!VC)
-    return message.channel.send("MESSAGE IF NOT IN A VOICE CHANNEL")
+    return message.reply("You must be in a Voice Channel!")
     
     VC.join().then(connection => {
         const dispatcher = connection.playFile('audio/hmadi.mp3');
