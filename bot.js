@@ -118,7 +118,8 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/hmadi.opus');
+          //const dispatcher = connection.playFile('./audio/hmadi.opus');
+          const dispatcher = connection.playFile('./audio/hmadi.mp3');
           dispatcher.on("end", end => {VC.leave()});
       }).catch(console.error);      
     }
