@@ -117,11 +117,11 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.play('./audio/hmadi.mp3');
+          const dispatcher = connection.playFile('./audio/hmadi.mp3');
           dispatcher.on("end", end => {
-            //setTimeout(function(){ 
+            setTimeout(function(){ 
                 VC.leave()
-            //}, 2000);
+            }, 2000);
           });
       }).catch(console.error);      
     }
