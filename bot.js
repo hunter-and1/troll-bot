@@ -113,7 +113,7 @@ client.on('message', message => {
   }
 
  
-  if (message.content.toLowerCase().indexOf("hmadi")) {
+  if (message.content.startsWith("hmadi")) {
 
     var VC = message.member.voiceChannel;
     if (VC)
