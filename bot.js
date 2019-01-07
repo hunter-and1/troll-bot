@@ -129,6 +129,96 @@ client.on('message', message => {
     message.channel.send('You must be in a Voice Channel ');
   }
 
+  if (message.content.startsWith("u55")) {
+    var VC = message.member.voiceChannel;
+    if (VC)
+    {
+      VC.join().then(connection => {
+          const dispatcher = connection.playFile('./audio/55.mp3');
+          dispatcher.on("end", end => {
+            setTimeout(function(){ 
+                VC.leave()
+            }, 2000);
+          });
+      }).catch(console.error);      
+    }
+    else
+    message.channel.send('You must be in a Voice Channel ');
+  }
+
+
+  if (message.content.startsWith("uvitesse")) {
+    var VC = message.member.voiceChannel;
+    if (VC)
+    {
+      VC.join().then(connection => {
+          const dispatcher = connection.playFile('./audio/vitesse.mp3');
+          dispatcher.on("end", end => {
+            setTimeout(function(){ 
+                VC.leave()
+            }, 2000);
+          });
+      }).catch(console.error);      
+    }
+    else
+    message.channel.send('You must be in a Voice Channel ');
+  }
+
+
+  if (message.content.startsWith("u3lachtkdb")) {
+    var VC = message.member.voiceChannel;
+    if (VC)
+    {
+      VC.join().then(connection => {
+          const dispatcher = connection.playFile('./audio/3lachtkdb.mp3');
+          dispatcher.on("end", end => {
+            setTimeout(function(){ 
+                VC.leave()
+            }, 2000);
+          });
+      }).catch(console.error);      
+    }
+    else
+    message.channel.send('You must be in a Voice Channel ');
+  }
+
+
+  if (message.content.startsWith("utisa3")) {
+    var VC = message.member.voiceChannel;
+    if (VC)
+    {
+      VC.join().then(connection => {
+          const dispatcher = connection.playFile('./audio/tisa3.mp3');
+          dispatcher.on("end", end => {
+            setTimeout(function(){ 
+                VC.leave()
+            }, 2000);
+          });
+      }).catch(console.error);      
+    }
+    else
+    message.channel.send('You must be in a Voice Channel ');
+  }
+
+
+  if (message.content.startsWith("usaricool")) {
+    var VC = message.member.voiceChannel;
+    if (VC)
+    {
+      VC.join().then(connection => {
+          const dispatcher = connection.playFile('./audio/saricoll.mp3');
+          dispatcher.on("end", end => {
+            setTimeout(function(){ 
+                VC.leave()
+            }, 2000);
+          });
+      }).catch(console.error);      
+    }
+    else
+    message.channel.send('You must be in a Voice Channel ');
+  }
+
+
   if(message.content.toLowerCase().indexOf("chkon amazighi") >= 0){
     message.channel.send('houa chriff');
   }
