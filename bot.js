@@ -112,7 +112,7 @@ client.on('message', message => {
     message.channel.send(eval(math));
   }
 
-  if (message.content.startsWith("hmadi")) {
+  if (message.content.startsWith("uhmadi")) {
     var VC = message.member.voiceChannel;
     if (VC)
     {
