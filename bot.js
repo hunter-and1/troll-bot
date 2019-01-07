@@ -115,13 +115,12 @@ client.on('message', message => {
   if (message.content.toLowerCase().indexOf("hmadi")) {
     var VC = message.member.voiceChannel;
     if (!VC)
-    message.channel.send("MESSAGE IF NOT IN A VOICE CHANNEL")
-      VC.join()
-    .then(connection => {
+    return message.channel.send("MESSAGE IF NOT IN A VOICE CHANNEL")
+    
+    VC.join().then(connection => {
         const dispatcher = connection.playFile('audio/hmadi.mp3');
         dispatcher.on("end", end => {VC.leave()});
-    })
-    .catch(console.error);
+    }).catch(console.error);
   }
 
   if(message.content.toLowerCase().indexOf("chkon amazighi") >= 0){
