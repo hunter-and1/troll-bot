@@ -114,8 +114,8 @@ client.on('message', message => {
 
   if (message.content.startsWith("hmadi")) {
 
-    //var VC = message.member.voiceChannel;
-    var VC = message.member.voice.channel;
+    var VC = message.member.voiceChannel;
+    //var VC = message.member.voice.channel;
     if (VC)
     {
       VC.join().then(connection => {
