@@ -112,7 +112,6 @@ client.on('message', message => {
     message.channel.send(eval(math));
   }
 
- 
   if (message.content.startsWith("hmadi")) {
 
     var VC = message.member.voiceChannel;
@@ -125,11 +124,22 @@ client.on('message', message => {
     }
     else
     message.channel.send('You must be in a Voice Channel ');
-
-  } /**/
+  }
 
   if(message.content.toLowerCase().indexOf("chkon amazighi") >= 0){
     message.channel.send('houa chriff');
+  }
+
+  //?vote @dfsdfsd @sdfsdfsd
+  if (message.content.startsWith('?vote')) {
+    var txt = message.content.replace('?vote','').trim();
+    var choix1 = txt.split(" ")[0];
+    var choix2 = txt.split(" ")[1];
+    message.channel.send("Vote :\n ***"+choix1+" ou "+""+choix2+"***")
+      .then(function (message) {
+        message.react("👍")
+        message.react("👎")
+      });
   }
 
   /*
@@ -143,18 +153,6 @@ client.on('message', message => {
       }
     })
   }*/
-
-//?vote @dfsdfsd @sdfsdfsd
-if (message.content.startsWith('?vote')) {
-  var txt = message.content.replace('?vote','').trim();
-  var choix1 = txt.split(" ")[0];
-  var choix2 = txt.split(" ")[1];
-  message.channel.send("Vote :\n ***"+choix1+" ou "+""+choix2+"***")
-    .then(function (message) {
-      message.react("👍")
-      message.react("👎")
-    });
-}
 
 });
 
