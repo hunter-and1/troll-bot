@@ -118,13 +118,12 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          //const dispatcher = connection.playFile('./audio/hmadi.opus');
-          connection.on('speaking', (user, speaking) => {
-            const dispatcher = connection.playFile('./audio/hmadi.mp3');
-            dispatcher.on('end', () => {connection.disconnect();VC.leave()});
+          const dispatcher = connection.playFile('./audio/hmadi.mp3');
+          dispatcher.on("end", end => {
+            setTimeout(function(){ 
+                VC.leave()
+            }, 2000);
           });
-          //const dispatcher = connection.playFile('./audio/hmadi.mp3');
-          //dispatcher.on("end", end => {VC.leave()});
       }).catch(console.error);      
     }
     else
