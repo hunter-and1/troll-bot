@@ -118,11 +118,10 @@ client.on('message', message => {
     {
       VC.join().then(connection => {
           const dispatcher = connection.playFile('./audio/hmadi.mp3');
-          dispatcher.on("end", end => {
-            setTimeout(function(){ 
-                VC.leave()
-            }, 2000);
-          });
+          dispatcher.on(
+            'start', start => {connection.player.streamingData.pausedTime = 0;},
+            'end', end => {VC.leave();}
+          );
       }).catch(console.error);      
     }
     else
@@ -135,11 +134,10 @@ client.on('message', message => {
     {
       VC.join().then(connection => {
           const dispatcher = connection.playFile('./audio/55.mp3');
-          dispatcher.on("end", end => {
-            setTimeout(function(){ 
-                VC.leave()
-            }, 2000);
-          });
+          dispatcher.on(
+            'start', start => {connection.player.streamingData.pausedTime = 0;},
+            'end', end => {VC.leave();}
+          );
       }).catch(console.error);      
     }
     else
@@ -153,11 +151,10 @@ client.on('message', message => {
     {
       VC.join().then(connection => {
           const dispatcher = connection.playFile('./audio/vitesse.mp3');
-          dispatcher.on("end", end => {
-            setTimeout(function(){ 
-                VC.leave()
-            }, 2000);
-          });
+          dispatcher.on(
+            'start', start => {connection.player.streamingData.pausedTime = 0;},
+            'end', end => {VC.leave();}
+          );
       }).catch(console.error);      
     }
     else
@@ -171,11 +168,10 @@ client.on('message', message => {
     {
       VC.join().then(connection => {
           const dispatcher = connection.playFile('./audio/3lachtkdb.mp3');
-          dispatcher.on("end", end => {
-            setTimeout(function(){ 
-                VC.leave()
-            }, 2000);
-          });
+          dispatcher.on(
+            'start', start => {connection.player.streamingData.pausedTime = 0;},
+            'end', end => {VC.leave();}
+          );
       }).catch(console.error);      
     }
     else
@@ -191,7 +187,7 @@ client.on('message', message => {
           const dispatcher = connection.playFile('./audio/tisa3.mp3');
           dispatcher.on(
             'start', start => {connection.player.streamingData.pausedTime = 0;},
-            'end', end => {setTimeout(function(){VC.leave()}, 2000);}
+            'end', end => {VC.leave();}
           );
       }).catch(console.error);      
     }
@@ -206,11 +202,10 @@ client.on('message', message => {
     {
       VC.join().then(connection => {
           const dispatcher = connection.playFile('./audio/saricoll.mp3');
-          dispatcher.on("end", end => {
-            setTimeout(function(){ 
-                VC.leave()
-            }, 2000);
-          });
+          dispatcher.on(
+            'start', start => {connection.player.streamingData.pausedTime = 0;},
+            'end', end => {VC.leave();}
+          );
       }).catch(console.error);      
     }
     else
