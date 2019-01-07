@@ -120,7 +120,7 @@ client.on('message', message => {
     return message.reply("You must be in a Voice Channel!")
     
     VC.join().then(connection => {
-        const dispatcher = connection.playFile('./audio/hmadi.mp3');
+        const dispatcher = connection.playFile('audio/hmadi.mp3');
         dispatcher.on("end", end => {VC.leave()});
     }).catch(console.error);
   } /**/
