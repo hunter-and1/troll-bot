@@ -119,8 +119,12 @@ client.on('message', message => {
     {
       VC.join().then(connection => {
           //const dispatcher = connection.playFile('./audio/hmadi.opus');
-          const dispatcher = connection.playFile('./audio/hmadi.mp3');
-          dispatcher.on("end", end => {VC.leave()});
+          connection.on('speaking', (user, speaking) => {
+            const dispatcher = connection.playFile('./audio/hmadi.mp3');
+            dispatcher.on('end', () => {connection.disconnect();VC.leave()});
+          });
+          //const dispatcher = connection.playFile('./audio/hmadi.mp3');
+          //dispatcher.on("end", end => {VC.leave()});
       }).catch(console.error);      
     }
     else
