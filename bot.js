@@ -112,6 +112,18 @@ client.on('message', message => {
     message.channel.send(eval(math));
   }
 
+  if (message.content.toLowerCase().indexOf("hmadi")) {
+    var VC = message.member.voiceChannel;
+    if (!VC)
+    return message.reply("MESSAGE IF NOT IN A VOICE CHANNEL")
+      VC.join()
+    .then(connection => {
+        const dispatcher = connection.playFile('hmadi.mp3');
+        dispatcher.on("end", end => {VC.leave()});
+    })
+    .catch(console.error);
+  }
+
   if(message.content.toLowerCase().indexOf("chkon amazighi") >= 0){
     message.channel.send('houa chriff');
   }
