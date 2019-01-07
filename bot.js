@@ -124,7 +124,7 @@ client.on('message', message => {
       }).catch(console.error);      
     }
     else
-    message.channel.send('You must be in a Voice Channel');
+    message.channel.send('You must be in a Voice Channel ');
 
   } /**/
 
