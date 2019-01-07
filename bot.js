@@ -114,15 +114,15 @@ client.on('message', message => {
 
   if (message.content.startsWith("hmadi")) {
 
-    var VC = message.member.voiceChannel;
+    var VC = member.voice.channel;
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/hmadi.mp3');
+          const dispatcher = connection.play('./audio/hmadi.mp3');
           dispatcher.on("end", end => {
-            setTimeout(function(){ 
+            //setTimeout(function(){ 
                 VC.leave()
-            }, 2000);
+            //}, 2000);
           });
       }).catch(console.error);      
     }
