@@ -111,7 +111,7 @@ client.on('message', message => {
     var math = message.content.split(" ")[1];
     message.channel.send(eval(math));
   }
-
+  /*
   if (message.content.toLowerCase().indexOf("hmadi")) {
     var VC = message.member.voiceChannel;
     if (!VC)
@@ -121,7 +121,7 @@ client.on('message', message => {
         const dispatcher = connection.playFile('audio/hmadi.mp3');
         dispatcher.on("end", end => {VC.leave()});
     }).catch(console.error);
-  }
+  }*/
 
   if(message.content.toLowerCase().indexOf("chkon amazighi") >= 0){
     message.channel.send('houa chriff');
