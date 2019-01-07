@@ -190,8 +190,8 @@ client.on('message', message => {
       VC.join().then(connection => {
           const dispatcher = connection.playFile('./audio/tisa3.mp3');
           dispatcher.on(
-            'start', => {connection.player.streamingData.pausedTime = 0;},
-            'end', => {setTimeout(function(){VC.leave()}, 2000);}
+            'start', start => {connection.player.streamingData.pausedTime = 0;},
+            'end', end => {setTimeout(function(){VC.leave()}, 2000);}
           );
       }).catch(console.error);      
     }
