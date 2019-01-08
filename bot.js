@@ -118,9 +118,8 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/hmadi.ogg');
+          const dispatcher = connection.playFile('./audio/hmadi.ogg', { type: 'ogg/opus' });
           dispatcher.on(
-            'start', start => {connection.player.streamingData.pausedTime = 0;},
             'end', end => {VC.leave();}
           );
       }).catch(console.error);      
@@ -134,9 +133,8 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/55.ogg');
+          const dispatcher = connection.playFile('./audio/55.ogg', { type: 'ogg/opus' });
           dispatcher.on(
-            'start', start => {connection.player.streamingData.pausedTime = 0;},
             'end', end => {VC.leave();}
           );
       }).catch(console.error);      
@@ -183,9 +181,8 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/3lachtkdb.ogg');
+          const dispatcher = connection.playFile('./audio/3lachtkdb.ogg', { type: 'ogg/opus' });
           dispatcher.on(
-            'start', start => {connection.player.streamingData.pausedTime = 0;},
             'end', end => {VC.leave();}
           );
       }).catch(console.error);      
@@ -200,9 +197,8 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/tisa3.ogg');
+          const dispatcher = connection.playFile('./audio/tisa3.ogg', { type: 'ogg/opus' });
           dispatcher.on(
-            'start', start => {connection.player.streamingData.pausedTime = 0;},
             'end', end => {VC.leave();}
           );
       }).catch(console.error);      
@@ -217,9 +213,8 @@ client.on('message', message => {
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/saricoll.ogg');
+          const dispatcher = connection.playFile('./audio/saricoll.ogg', { type: 'ogg/opus' });
           dispatcher.on(
-            'start', start => {connection.player.streamingData.pausedTime = 0;},
             'end', end => {VC.leave();}
           );
       }).catch(console.error);      
