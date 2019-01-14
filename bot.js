@@ -48,7 +48,7 @@ client.on('message', message => {
       });      
     }
   }
-    
+  /*
   if(message.content.toLowerCase().indexOf("dab") >= 0){
     message.channel.send({files: [
       {
@@ -64,8 +64,8 @@ client.on('message', message => {
         name: "REE.gif"
       }
     ]});
-  }
-  if(message.content.toLowerCase().indexOf("??") >= 0){
+  }*/ 
+  if(message.content.toLowerCase().indexOf("???") >= 0){
     message.channel.send({files: [
       {
         attachment: 'images/WHAT.png',
