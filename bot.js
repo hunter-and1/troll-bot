@@ -20,10 +20,15 @@ client.on('message', message => {
     //message.channel.send(message.content.replace('?say',''), {tts: true});
   //}
     
+
   if (message.content.startsWith('?clan')) {
     message.channel.send("ᴹᴰ✮"+message.author.username);
   }
-    
+
+  if (message.content.startsWith('?setGame')) {
+    client.user.setGame(message.content.split(" ")[1])
+  }
+
   if (message.content.startsWith('?add')) {
     var messagesplit = message.content.split(" ");
     listsv.push(messagesplit[1]);
