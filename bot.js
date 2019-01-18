@@ -244,8 +244,8 @@ if (message.content === "listemojis") {
     var txt = message.content.replace('?vote','').trim();
     message.channel.send("Vote :\n ***"+txt+"***")
       .then(function (message) {
-        message.react(":yes:")
-        message.react(":no:")
+        message.react("535835102882693153")
+        message.react("535835129273253905")
       });
   }
 
