@@ -26,7 +26,7 @@ client.on('message', message => {
   }
 
   if (message.content.startsWith('?setGame')) {
-    client.user.setGame(message.content.split(" ")[1])
+    client.user.setGame(message.content.replace('?setGame','').trim());
   }
 
   if (message.content.startsWith('?add')) {
