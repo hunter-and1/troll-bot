@@ -8,6 +8,12 @@ client.on('ready', () => {
   client.user.setUsername("MD-Team");
 });
 
+client.on('guildMemberAdd', member => {
+  var role = member.guild.roles().find("name","Wait to approval");
+  member.addRole(role);
+  message.channel.send("Berhba bik f group MD-Team");
+})
+
 client.on('message', message => {
 
   //if (message.content.startsWith('?say')) {
@@ -231,12 +237,10 @@ client.on('message', message => {
   //?vote @dfsdfsd @sdfsdfsd
   if (message.content.startsWith('?vote')) {
     var txt = message.content.replace('?vote','').trim();
-    var choix1 = txt.split(" ")[0];
-    var choix2 = txt.split(" ")[1];
-    message.channel.send("Vote :\n ***"+choix1+" ou "+""+choix2+"***")
+    message.channel.send("Vote :\n ***"+txt+"***")
       .then(function (message) {
-        message.react("👍")
-        message.react("👎")
+        message.react(":yes:")
+        message.react(":no:")
       });
   }
 
@@ -253,10 +257,11 @@ client.on('message', message => {
   }*/
 
   if(message.content.toLowerCase().indexOf("discord.gg") >= 0){
-    message.delete(5000)
+    message.delete(1000)
     message.reply('Invalid command , you don\'t have permission for share your server discord.');
   }
 
+  // message.member.hasPermission("MANAGE_ROLES")
 });
 
 client.login(process.env.BOT_TOKEN);
