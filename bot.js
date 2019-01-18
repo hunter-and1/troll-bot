@@ -253,10 +253,8 @@ client.on('message', message => {
   }*/
 
   if(message.content.toLowerCase().indexOf("discord.gg") >= 0){
-    message.reply('Invalid command')
-    .then(msg => {
-      msg.delete(2000)
-    });
+    message.delete(5000)
+    message.reply('Invalid command , you don\'t have permission for share your server discord.');
   }
 
 });
