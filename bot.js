@@ -234,6 +234,11 @@ client.on('message', message => {
     message.channel.send('houa chriff');
   }
 
+if (message.content === "listemojis") {
+   const emojiList = message.guild.emojis.map((e, x) => (x + ' = ' + e) + ' | ' +e.name).join('\n');
+   message.channel.send(emojiList);
+}
+
   //?vote @dfsdfsd @sdfsdfsd
   if (message.content.startsWith('?vote')) {
     var txt = message.content.replace('?vote','').trim();
