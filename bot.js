@@ -252,6 +252,13 @@ client.on('message', message => {
     })
   }*/
 
+  if(message.content.toLowerCase().indexOf("discord.gg") >= 0){
+    message.reply('Invalid command')
+    .then(msg => {
+      msg.delete(2000)
+    });
+  }
+
 });
 
 client.login(process.env.BOT_TOKEN);
