@@ -9,7 +9,7 @@ client.on('ready', () => {
 });
 
 client.on('guildMemberAdd', member => {
-  var role = member.guild.roles().find("name","Wait to approval");
+  var role = member.guild.roles.find("name","Wait to approval");
   member.addRole(role);
   message.channel.send("Berhba bik f group MD-Team");
 })
