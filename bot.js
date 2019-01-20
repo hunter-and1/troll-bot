@@ -11,7 +11,7 @@ client.on('ready', () => {
 client.on('guildMemberAdd', member => {
   var role = member.guild.roles.find(role => role.name === "Wait to approval");
   member.addRole(role);
-  message.channel.send('"${member.user.username}" Berhba bik f group MD-gang');
+  member.guild.channels.get("chat").send('"${member.user.username}" Berhba bik f group MD-gang');
 })
 
 
