@@ -1,17 +1,19 @@
 const Discord = require('discord.js');
-//const Music = require('discord.js-musicbot-addon');
 const client = new Discord.Client();
 var listsv = [];
 
 client.on('ready', () => {
   console.log('I am ready!');
-  client.user.setUsername("MD-gang");
+  client.user.setUsername("MD-Gang");
 });
 
 client.on('guildMemberAdd', member => {
 
   let role = member.guild.roles.find(role => role.name === "Wait to approval");
-  console.log("application_id : "+member.guild.applicationID);
+  console.log("member : ");
+  console.log(member);
+  console.log("member.guild : ");
+  console.log(member.guild);
   member.addRole(role);
   member.guild.channels.find(channel => channel.name == "chat").send('\"'+member.user.username+'\" Berhba bik f group MD-gang');
 })
