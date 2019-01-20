@@ -8,23 +8,21 @@ client.on('ready', () => {
 });
 
 client.on('guildMemberAdd', member => {
-
-  let role = member.guild.roles.find(role => role.name === "Wait to approval");
-  console.log("member : ");
-  console.log(member);
-  console.log("member.guild : ");
-  console.log(member.guild);
-  member.addRole(role);
-  member.guild.channels.find(channel => channel.name == "chat").send('\"'+member.user.username+'\" Berhba bik f group MD-gang');
+  if(member.guild.user.bot)
+  {
+    let role = member.guild.roles.find(role => role.name === "Bots");
+    member.addRole(role);
+  }
+  else
+  {
+    let role = member.guild.roles.find(role => role.name === "Wait to approval");
+    member.addRole(role);
+    member.guild.channels.find(channel => channel.name == "chat").send('\"'+member.user.username+'\" Berhba bik f group MD-gang');
+  }
 })
 
 
 client.on('message', message => {
-
-  //if (message.content.startsWith('?say')) {
-    //message.channel.send(message.content.replace('?say',''), {tts: true});
-  //}
-    
 
   if (message.content.startsWith('?clan')) {
     message.channel.send("ᴹᴰ✮"+message.author.username);
