@@ -278,7 +278,7 @@ if (message.content === "listemojis") {
     var txt = message.content.replace('?pubg-weapon','').trim().toLowerCase();
     if(txt == "shotgun")
     {
-      var embed = new discord.RichEmbed()
+      var embed = new Discord.RichEmbed()
       .setTitle("S686")
       .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
       .setColor(0x00AE86)
@@ -289,7 +289,7 @@ if (message.content === "listemojis") {
 
       message.channel.send(embed);
 
-      embed = new discord.RichEmbed()
+      embed = new Discord.RichEmbed()
       .setTitle("S1897")
       .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
       .setColor(0x00AE86)
@@ -300,7 +300,7 @@ if (message.content === "listemojis") {
 
       message.channel.send(embed);
 
-      embed = new discord.RichEmbed()
+      embed = new Discord.RichEmbed()
       .setTitle("S12K")
       .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
       .setColor(0x00AE86)
