@@ -278,7 +278,39 @@ if (message.content === "listemojis") {
     var txt = message.content.replace('?pubg-weapon','').trim().toLowerCase();
     if(txt == "shotgun")
     {
-      message.channel.send({files: [{attachment: 'images/shotgun.png',name: "shotgun.PNG"}]});
+      var embed = new discord.RichEmbed()
+      .setTitle("S686")
+      .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
+      .setColor(0x00AE86)
+      .addField("Power :", "23/100", true)
+      .addField("Range :", "13/100", true)
+      .addField("Tier :", "C", true)
+      .setImage("https://d1u5p3l4wpay3k.cloudfront.net/battlegrounds_gamepedia_en/f/f2/Icon_weapon_Berreta686.png")
+
+      message.channel.send(embed);
+
+      embed = new discord.RichEmbed()
+      .setTitle("S1897")
+      .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
+      .setColor(0x00AE86)
+      .addField("Power :", "23/100", true)
+      .addField("Range :", "13/100", true)
+      .addField("Tier :", "D", true)
+      .setImage("https://d1u5p3l4wpay3k.cloudfront.net/battlegrounds_gamepedia_en/3/35/Icon_weapon_Winchester.png")
+
+      message.channel.send(embed);
+
+      embed = new discord.RichEmbed()
+      .setTitle("S12K")
+      .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
+      .setColor(0x00AE86)
+      .addField("Power :", "20/100", true)
+      .addField("Range :", "9/100", true)
+      .addField("Tier :", "C", true)
+      .setImage("https://d1u5p3l4wpay3k.cloudfront.net/battlegrounds_gamepedia_en/f/f9/Icon_weapon_Saiga12.png")
+
+      message.channel.send(embed);
+      //message.channel.send({files: [{attachment: 'images/shotgun.png',name: "shotgun.PNG"}]});
     }
     else if(txt == "assault-rifle")
     {
