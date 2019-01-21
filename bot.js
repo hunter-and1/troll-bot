@@ -274,6 +274,46 @@ if (message.content === "listemojis") {
     message.reply('Invalid command , you don\'t have permission for share your server discord.');
   }
 
+  if(message.content.toLowerCase().indexOf("?pubg-weapon") >= 0){
+    var txt = message.content.replace('?pubg-weapon','').trim().toLowerCase();
+    if(txt == "shotgun")
+    {
+      message.channel.send({files: [{attachment: 'images/shotgun.png',name: "shotgun.PNG"}]});
+    }
+    else if(txt == "assault-rifle")
+    {
+      message.channel.send({files: [{attachment: 'images/assault-rifle.png',name: "assault-rifle.PNG"}]});
+    }
+    else if(txt == "sniper-rifle")
+    {
+      message.channel.send({files: [{attachment: 'images/sniper-rifle.png',name: "sniper-rifle.PNG"}]});
+    }
+    else if(txt == "marksman-rifle")
+    {
+      message.channel.send({files: [{attachment: 'images/marksman-rifle.png',name: "marksman-rifle.PNG"}]});
+    }
+    else if(txt == "sub-machine-gun")
+    {
+      message.channel.send({files: [{attachment: 'images/sub-machine-gun.png',name: "sub-machine-gun.PNG"}]});
+    }
+    else if(txt == "light-machine-gun")
+    {
+      message.channel.send({files: [{attachment: 'images/light-machine-gun.png',name: "light-machine-gun.PNG"}]});
+    }
+    else if(txt == "handgun")
+    {
+      message.channel.send({files: [{attachment: 'images/handgun.png',name: "handgun.PNG"}]});
+    }
+    else if(txt == "other")
+    {
+      message.channel.send({files: [{attachment: 'images/other.png',name: "other.PNG"}]});
+    }
+    else if(txt == "melee")
+    {
+      message.channel.send({files: [{attachment: 'images/melee.png',name: "melee.PNG"}]});
+    }
+  }
+
   // message.member.hasPermission("MANAGE_ROLES")
 });
 
