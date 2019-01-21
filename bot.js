@@ -274,6 +274,22 @@ if (message.content === "listemojis") {
     message.reply('Invalid command , you don\'t have permission for share your server discord.');
   }
 
+  if(message.content.toLowerCase().indexOf("?pubg-mobile-requirements") >= 0){
+      var embed = new Discord.RichEmbed()
+      .setTitle("Requirements")
+      .setAuthor("Pubg Mobile For PC", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
+      .setColor(0x5DD423)
+      .addField("CPU :", "Dual core from Intel or AMD at 1.8 GHz.", true)
+      .addField("GPU :", "NVIDIA GeForce 8600/9600GT, ATI/AMD Radeon HD2600/3600", true)
+      .addField("Memory :","at least 3GB of RAM", true)
+      .addField("OS :", "Windows 10, 8.1, 8 and 7", true)
+      .addField("DirectX :", "Version 9.0c", true)
+      .addField("Storage :", "2GB of free storage", true)
+
+      message.channel.send(embed);
+  }
+
+
   if(message.content.toLowerCase().indexOf("?pubg-weapon") >= 0){
     var txt = message.content.replace('?pubg-weapon','').trim().toLowerCase();
     var embed = null;
