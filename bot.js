@@ -284,7 +284,7 @@ if (message.content === "listemojis") {
     else if(txt == "shotgun s686")
     {
       embed = new Discord.RichEmbed()
-      .setTitle("S686")
+      .setTitle("Shotgun S686")
       .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
       .setColor(0x00AE86)
       .addField("Power :", "23/100", true)
@@ -297,7 +297,7 @@ if (message.content === "listemojis") {
     else if(txt == "shotgun s1897")
     {
       embed = new Discord.RichEmbed()
-      .setTitle("S1897")
+      .setTitle("Shotgun S1897")
       .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
       .setColor(0x00AE86)
       .addField("Power :", "23/100", true)
@@ -310,7 +310,7 @@ if (message.content === "listemojis") {
     else if(txt == "shotgun s12k")
     {
       embed = new Discord.RichEmbed()
-      .setTitle("S12K")
+      .setTitle("Shotgun S12K")
       .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
       .setColor(0x00AE86)
       .addField("Power :", "20/100", true)
@@ -323,6 +323,110 @@ if (message.content === "listemojis") {
     {
       message.channel.send({files: [{attachment: 'images/assault-rifle.png',name: "assault-rifle.PNG"}]});
     }
+    else if(txt == "assault-rifle akm")
+    {
+      embed = new Discord.RichEmbed()
+      .setTitle("Assault Rifle AKM")
+      .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
+      .setColor(0x00AE86)
+      .addField("Power :", "40/100", true)
+      .addField("Range :", "60/100", true)
+      .addField("Tier :", "B", true)
+      .setThumbnail("https://d1u5p3l4wpay3k.cloudfront.net/battlegrounds_gamepedia_en/6/6c/AKM.png")
+
+      message.channel.send(embed);
+    }
+    else if(txt == "assault-rifle m16a4")
+    {
+      embed = new Discord.RichEmbed()
+      .setTitle("Assault Rifle M16A4")
+      .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
+      .setColor(0x00AE86)
+      .addField("Power :", "42/100", true)
+      .addField("Range :", "64/100", true)
+      .addField("Tier :", "B", true)
+      .setThumbnail("https://d1u5p3l4wpay3k.cloudfront.net/battlegrounds_gamepedia_en/c/c1/Icon_weapon_M16A4.png")
+
+      message.channel.send(embed);
+    }
+    else if(txt == "assault-rifle scar-l")
+    {
+      embed = new Discord.RichEmbed()
+      .setTitle("Assault Rifle SCAR-L")
+      .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
+      .setColor(0x00AE86)
+      .addField("Power :", "42/100", true)
+      .addField("Range :", "55/100", true)
+      .addField("Tier :", "B", true)
+      .setThumbnail("https://d1u5p3l4wpay3k.cloudfront.net/battlegrounds_gamepedia_en/2/28/Icon_weapon_SCAR-L.png")
+
+      message.channel.send(embed);
+    }
+    else if(txt == "assault-rifle m416")
+    {
+      embed = new Discord.RichEmbed()
+      .setTitle("Assault Rifle M416")
+      .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
+      .setColor(0x00AE86)
+      .addField("Power :", "42/100", true)
+      .addField("Range :", "56/100", true)
+      .addField("Tier :", "A", true)
+      .setThumbnail("https://d1u5p3l4wpay3k.cloudfront.net/battlegrounds_gamepedia_en/9/99/Icon_weapon_HK416.png")
+
+      message.channel.send(embed);
+    }
+    else if(txt == "assault-rifle groza")
+    {
+      embed = new Discord.RichEmbed()
+      .setTitle("Assault Rifle GROZA")
+      .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
+      .setColor(0x00AE86)
+      .addField("Power :", "40/100", true)
+      .addField("Range :", "60/100", true)
+      .addField("Tier :", "S", true)
+      .setThumbnail("https://d1u5p3l4wpay3k.cloudfront.net/battlegrounds_gamepedia_en/d/d3/Icon_weapon_Groza.png")
+
+      message.channel.send(embed);
+    }
+    else if(txt == "assault-rifle aug-a3")
+    {
+      embed = new Discord.RichEmbed()
+      .setTitle("Assault Rifle AUG A3")
+      .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
+      .setColor(0x00AE86)
+      .addField("Power :", "42/100", true)
+      .addField("Range :", "50/100", true)
+      .addField("Tier :", "A", true)
+      .setThumbnail("https://d1u5p3l4wpay3k.cloudfront.net/battlegrounds_gamepedia_en/e/ea/Icon_weapon_AUG_A3.png")
+
+      message.channel.send(embed);
+    }
+    else if(txt == "assault-rifle m16a4")
+    {
+      embed = new Discord.RichEmbed()
+      .setTitle("Assault Rifle M16A4")
+      .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
+      .setColor(0x00AE86)
+      .addField("Power :", "42/100", true)
+      .addField("Range :", "64/100", true)
+      .addField("Tier :", "B", true)
+      .setThumbnail("https://d1u5p3l4wpay3k.cloudfront.net/battlegrounds_gamepedia_en/6/6c/AKM.png")
+
+      message.channel.send(embed);
+    }
+    else if(txt == "assault-rifle m16a4")
+    {
+      embed = new Discord.RichEmbed()
+      .setTitle("Assault Rifle M16A4")
+      .setAuthor("Pubg Weapon", "https://res.cloudinary.com/teepublic/image/private/s---xiJeC7t--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1535164327/production/designs/3064946_0.jpg")
+      .setColor(0x00AE86)
+      .addField("Power :", "42/100", true)
+      .addField("Range :", "64/100", true)
+      .addField("Tier :", "B", true)
+      .setThumbnail("https://d1u5p3l4wpay3k.cloudfront.net/battlegrounds_gamepedia_en/6/6c/AKM.png")
+
+      message.channel.send(embed);
+    }                        
     else if(txt == "sniper-rifle")
     {
       message.channel.send({files: [{attachment: 'images/sniper-rifle.png',name: "sniper-rifle.PNG"}]});
