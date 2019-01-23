@@ -32,6 +32,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     console.log('User leaves a voice channel');
     console.log('----------');
     channel.send(`${oldMember} leaves ${oldMember.voiceChannel}`);
+    
     // save in info
     var DureeInVoice = Math.floor(Date.now() / 1000) - client.infos[oldMember.id].timeJoin; // sec
     client.lvl[oldMember.id] = {
