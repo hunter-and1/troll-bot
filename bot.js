@@ -36,7 +36,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     // save in info
     var DureeInVoice = Math.floor(Date.now() / 1000) - client.infos[oldMember.id].timeJoin; // sec
     client.lvl[oldMember.id] = {
-      point:parseInt(DureeInVoice) + parseInt((client.lvl[oldMember.id] == undefined)?0:client.lvl[oldMember.id].point)
+      point:parseInt(DureeInVoice/60) + parseInt((client.lvl[oldMember.id] == undefined)?0:client.lvl[oldMember.id].point)
     }
     fs.writeFile("lvl.json",JSON.stringify(client.lvl,null,4),err =>{
         if(err) throw err;
