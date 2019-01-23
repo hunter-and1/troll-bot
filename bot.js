@@ -27,17 +27,17 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
 
   if(oldUserChannel === undefined && newUserChannel !== undefined) {
-    console.log('User Joins a voice channel');
-    console.log(newUserChannel.user.joinedTimestamp);
-    console.log(newUserChannel.user.username);
+    //console.log('User Joins a voice channel');
+    //console.log(newUserChannel.user.joinedTimestamp);
+    //console.log(newUserChannel.user.username);
      // User Joins a voice channel
 
   } else if(newUserChannel === undefined){
 
     // User leaves a voice channel
-    console.log('User leaves a voice channel');
-    console.log(oldUserChannel.user.joinedTimestamp);
-    console.log(oldUserChannel.user.username);
+    //console.log('User leaves a voice channel');
+    //console.log(oldUserChannel.user.joinedTimestamp);
+    //console.log(oldUserChannel.user.username);
   }
 })
 
