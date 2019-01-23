@@ -8,7 +8,7 @@ client.on('ready', () => {
 });
 
 client.on('guildMemberAdd', member => {
-  if(member.guild.user.bot)
+  if(member.user.bot)
   {
     let role = member.guild.roles.find(role => role.name === "Bots");
     member.addRole(role);
@@ -21,6 +21,25 @@ client.on('guildMemberAdd', member => {
   }
 })
 
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+  let newUserChannel = newMember.voiceChannel
+  let oldUserChannel = oldMember.voiceChannel
+
+
+  if(oldUserChannel === undefined && newUserChannel !== undefined) {
+    console.log('User Joins a voice channel');
+    console.log(newUserChannel);
+    console.log(oldUserChannel);
+     // User Joins a voice channel
+
+  } else if(newUserChannel === undefined){
+
+    // User leaves a voice channel
+    console.log('User leaves a voice channel');
+    console.log(newUserChannel);
+    console.log(oldUserChannel);
+  }
+})
 
 client.on('message', message => {
 
@@ -290,8 +309,8 @@ if (message.content === "listemojis") {
   }
 
 
-  if(message.content.toLowerCase().indexOf("?pubg-weapon") >= 0){
-    var txt = message.content.replace('?pubg-weapon','').trim().toLowerCase();
+  if(message.content.toLowerCase().indexOf("?pubg") >= 0){
+    var txt = message.content.replace('?pubg','').trim().toLowerCase();
     var embed = null;
     if(txt == "shotgun")
     {
