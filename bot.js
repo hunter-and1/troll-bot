@@ -64,25 +64,6 @@ client.on('guildMemberAdd', member => {
   }
 })
 
-client.on('voiceStateUpdate', (oldMember, newMember) => {
-  let newUserChannel = newMember.voiceChannel
-  let oldUserChannel = oldMember.voiceChannel
-
-
-  if(oldUserChannel === undefined && newUserChannel !== undefined) {
-    //console.log('User Joins a voice channel');
-    //console.log(newUserChannel.user.joinedTimestamp);
-    //console.log(newUserChannel.user.username);
-     // User Joins a voice channel
-
-  } else if(newUserChannel === undefined){
-
-    // User leaves a voice channel
-    //console.log('User leaves a voice channel');
-    //console.log(oldUserChannel.user.joinedTimestamp);
-    //console.log(oldUserChannel.user.username);
-  }
-})
 
 client.on('message', message => {
   
@@ -267,6 +248,14 @@ client.on('message', message => {
     }
     else
     message.channel.send('You must be in a Voice Channel ');
+  }
+
+  if (message.content.startsWith("?lvl")) {
+    if (client.lvl[message.author.id] == undefined) {
+      message.reply(0);
+    }
+    else
+      message.reply(client.lvl[message.author.id].point);
   }
 
 
