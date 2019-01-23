@@ -1,6 +1,48 @@
 const Discord = require('discord.js');
+const fs = require('fs');
 const client = new Discord.Client();
+client.infos = require('./data.json');
+client.lvl = require('./lvl.json');
+
 var listsv = [];
+
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+  let newUserChannel = newMember.voiceChannel
+  let oldUserChannel = oldMember.voiceChannel
+
+  const channel=oldMember.guild.channels.find(ch=>ch.name==='voice-log');
+
+  if(oldUserChannel === undefined && newUserChannel !== undefined) {
+    
+    console.log('User Joins a voice channel');
+    console.log('----------');
+    channel.send(`${newMember} joins ${newUserChannel}`);
+
+    // save in info
+    client.infos[newMember.id] = {
+      timeJoin:Math.floor(Date.now() / 1000)
+    }
+    fs.writeFile("data.json",JSON.stringify(client.infos,null,4),err =>{
+        if(err) throw err;
+        console.log("save in file");
+    });
+
+  } else if(newUserChannel === undefined){
+
+    console.log('User leaves a voice channel');
+    console.log('----------');
+    channel.send(`${oldMember} leaves ${oldMember.voiceChannel}`);
+    // save in info
+    var DureeInVoice = Math.floor(Date.now() / 1000) - client.infos[oldMember.id].timeJoin; // sec
+    client.lvl[oldMember.id] = {
+      point:parseInt(DureeInVoice) + parseInt((client.lvl[oldMember.id] == undefined)?0:client.lvl[oldMember.id].point)
+    }
+    fs.writeFile("lvl.json",JSON.stringify(client.lvl,null,4),err =>{
+        if(err) throw err;
+        console.log("save in file");
+    });
+  }
+})
 
 client.on('ready', () => {
   console.log('I am ready!');
@@ -42,6 +84,8 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 })
 
 client.on('message', message => {
+  
+  if(message.author.bot) return;
 
   if (message.content.startsWith('?clan')) {
     message.channel.send("ᴹᴰ✮"+message.author.username);
