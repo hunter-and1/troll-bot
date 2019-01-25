@@ -582,6 +582,7 @@ if (message.content === "listemojis") {
   if (message.content.startsWith("?addExp")) {
     const channelChat = message.guild.channels.find(ch=>ch.name==='chat');
     const UserTag = (message.mentions.users.first() === undefined)?message.author:message.mentions.users.first();
+
     mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
       if (err) throw err;
       var dbo = db.db("heroku_38t2rv88");
@@ -592,11 +593,12 @@ if (message.content === "listemojis") {
           if (err) throw err;
           var dbo = db.db("heroku_38t2rv88");
           var myquery = { id: UserTag.id };
-          var newvalues = { $set: {point: parseInt(message.content.slice(8)) + parseInt(result.point)} };
+          var pointAdd = (message.mentions.users.first() === undefined)?message.content.split(" ")[2]:message.content.split(" ")[1];
+          var newvalues = { $set: {point: parseInt(pointAdd) + parseInt(result.point)} };
           dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
             if (err) throw err;
             db.close();
-            channelChat.send(`${UserTag} You gain ${parseInt(message.content.slice(8))} Exp`);
+            channelChat.send(`${UserTag} You gain ${parseInt(pointAdd)} Exp`);
           });
         });
       });
