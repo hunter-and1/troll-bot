@@ -593,7 +593,7 @@ if (message.content === "listemojis") {
           if (err) throw err;
           var dbo = db.db("heroku_38t2rv88");
           var myquery = { id: UserTag.id };
-          var pointAdd = (message.mentions.users.first() === undefined)?message.content.split(" ")[2]:message.content.split(" ")[1];
+          var pointAdd = (message.mentions.users.first() === undefined)?message.content.split(" ")[1]:message.content.split(" ")[2];
           var newvalues = { $set: {point: parseInt(pointAdd) + parseInt(result.point)} };
           dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
             if (err) throw err;
