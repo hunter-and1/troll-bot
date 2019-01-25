@@ -70,7 +70,64 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
           });
         });         
       }
+    }
+  } else if (oldUserChannel !== null && newUserChannel !== null) {
+    if(newUserChannel.name == 'AFK')
+    {
+      if(!oldMember.bot){
+        channel.send(`${oldMember} leaves ${oldMember.voiceChannel}`);
+        if(client.infos[oldMember.id] !== undefined){
+          // save in info
+          var DureeInVoice = Math.floor( Math.floor(Date.now() / 1000) - client.infos[oldMember.id].timeJoin ) / 60;
 
+          mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("heroku_38t2rv88");
+            dbo.collection("lvl").findOne({ id: oldMember.id }, function(err, result) {
+              if (err) throw err;
+              if(result == null){
+                //create
+                mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+                if (err) throw err;
+                var dbo = db.db("heroku_38t2rv88");
+                var myobj = { id: oldMember.id, point: parseInt(DureeInVoice) };
+                dbo.collection("lvl").insertOne(myobj, function(err, res) {
+                  if (err) throw err;
+                  db.close();
+                });
+              }); 
+              }else
+              {
+                //update
+                mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+                  if (err) throw err;
+                  var dbo = db.db("heroku_38t2rv88");
+                  var myquery = { id: oldMember.id };
+                  var newvalues = { $set: {point: result.point + parseInt(DureeInVoice) } };
+                  dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
+                    if (err) throw err;
+                    db.close();
+                  });
+                });
+              }
+              db.close();
+            });
+          });         
+        }
+      }      
+    }
+    else{
+      if(!newMember.bot){
+        channel.send(`${newMember} joins ${newUserChannel}`);
+        // save in info
+        client.infos[newMember.id] = {
+          timeJoin:Math.floor(Date.now() / 1000)
+        }
+        fs.writeFile("data.json",JSON.stringify(client.infos,null,4),err =>{
+            if(err) throw err;
+            console.log("save in file");
+        });
+      }      
     }
   }
 })
@@ -528,7 +585,6 @@ if (message.content === "listemojis") {
       var dbo = db.db("heroku_38t2rv88");
       const UserTag = (message.content === "?level")? message.author:message.mentions.users.first();
       const url = UserTag.displayAvatarURL;
-      console.log(url);
       message.reply('Please wait generateur image.').then(msg => {
         dbo.collection("lvl").findOne({ id: UserTag.id }, function(err, result) {
           if(result == null) {message.channel.send("not found"); return;}
