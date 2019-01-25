@@ -641,7 +641,7 @@ if (message.content === "listemojis") {
       var level = 0;
       data.forEach(function(element,index) {
           level = Math.floor((50 + Math.sqrt(50 * 50 - 4 * 50 * (-element.point) ))/ (2 * 50));
-          text += "#"+(index + 1)+"  |  @<"+element.id+">  |  "+level+"  |  "+element.point+"\n";
+          text += "#"+(index + 1)+"  |  @<!"+element.id+">  |  "+level+"  |  "+element.point+"\n";
       });
       message.channel.send(text);
     });
