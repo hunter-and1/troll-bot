@@ -2,9 +2,12 @@ const Discord = require('discord.js');
 const request = require('request');
 const sharp = require('sharp');
 const fs = require('fs');
+const mdbClient = require('mongodb').MongoClient;
+const mongodb_url = process.env.MONGOLAB_AMBER_URI;
+
 const client = new Discord.Client();
 client.infos = require('./data.json');
-client.lvl = require('./lvl.json');
+//client.lvl = require('./lvl.json');
 
 var listsv = [];
 
@@ -34,18 +37,55 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     console.log('User leaves a voice channel');
     console.log('----------');
     channel.send(`${oldMember} leaves ${oldMember.voiceChannel}`);
-    
+
     // save in info
     var DureeInVoice = Math.floor(Date.now() / 1000) - client.infos[oldMember.id].timeJoin; // sec
+
+    mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("heroku_38t2rv88");
+      dbo.collection("lvl").findOne({ id: oldMember.id }, function(err, result) {
+        if (err) throw err;
+        if(result == null){
+          //create
+          mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+          if (err) throw err;
+          var dbo = db.db("heroku_38t2rv88");
+          var myobj = { id: oldMember.id, point: parseInt(DureeInVoice) };
+          dbo.collection("lvl").insertOne(myobj, function(err, res) {
+            if (err) throw err;
+            db.close();
+          });
+        }); 
+        }else
+        {
+          //update
+          mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("heroku_38t2rv88");
+            var myquery = { id: oldMember.id };
+            var newvalues = { $set: {point: result.point + parseInt(DureeInVoice) } };
+            dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
+              if (err) throw err;
+              db.close();
+            });
+          });
+        }
+        db.close();
+      });
+    }); 
+
+    /*
     client.lvl[oldMember.id] = {
-      point:parseInt(DureeInVoice/60) + parseInt((client.lvl[oldMember.id] == undefined)?0:client.lvl[oldMember.id].point)
+      point:parseInt(DureeInVoice) + parseInt((client.lvl[oldMember.id] == undefined)?0:client.lvl[oldMember.id].point)
     }
     fs.writeFile("lvl.json",JSON.stringify(client.lvl,null,4),err =>{
         if(err) throw err;
         console.log("save in file");
-    });
+    });*/
   }
 })
+
 
 client.on('ready', () => {
   console.log('I am ready!');
@@ -251,15 +291,6 @@ client.on('message', message => {
     else
     message.channel.send('You must be in a Voice Channel ');
   }
-
-  if (message.content.startsWith("?lvl")) {
-    if (client.lvl[message.author.id] == undefined) {
-      message.reply(0);
-    }
-    else
-      message.reply(client.lvl[message.author.id].point);
-  }
-
 
   if (message.content.startsWith("utisa3")) {
     var VC = message.member.voiceChannel;
@@ -503,75 +534,130 @@ if (message.content === "listemojis") {
   }
 
   if (message.content.startsWith("?level")) {
-    if (client.lvl[message.author.id] == undefined) {
-      message.channel.send("not found");
-    }
-    else{
+    mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("heroku_38t2rv88");
       const UserTag = (message.content === "?level")? message.author:message.mentions.users.first();
       const url = UserTag.displayAvatarURL;
-      const watermarkText = myDataExp(UserTag.id);
-      request({url,encoding: null}, function(error, response, body) {
-        if(!error) {
-        sharp.cache(false);
-          sharp(body).resize(70,70).toFile('lvl/profile_'+UserTag.id+'.png').then(function(){
-          sharp('lvl/bg1.png')
-          .overlayWith('lvl/profile_'+UserTag.id+'.png',{top:44+8, left:59})
-          .toFile('lvl/output.png').then(function(){
-            sharp('lvl/output.png')
-            .overlayWith('lvl/l'+watermarkText.level+'.png',{top:8, left:15})
-            .toFile('lvl/output2.png').then(function(){
-              const textedSVG = new Buffer(`<svg width="183" height="70">
-                <text x="173" y="25" font-size="18" text-anchor="end" fill="#fff" style="font-family:tahoma">${watermarkText.rank}</text>
-                <text x="173" y="45" font-size="18" text-anchor="end" fill="#fff" style="font-family:tahoma">${watermarkText.level}</text>
-                <text x="173" y="65" font-size="12" text-anchor="end" fill="#000" style="font-family:tahoma" font-weight="bold">${watermarkText.exp}</text>
-               </svg>`);
-              sharp('lvl/output2.png')
-              .overlayWith(textedSVG,{top:163, left:0})
-              .toFile('lvl/output3.png').then(function(){
-                message.channel.send({
-                  file: "lvl/output3.png"
-                });             
-              });
+      console.log(url);
+      message.reply('Please wait generateur image.').then(msg => {
+        dbo.collection("lvl").findOne({ id: UserTag.id }, function(err, result) {
+          if(result == null) {message.channel.send("not found"); return;}
+          getInfoUser(UserTag.id).then(function(watermarkText){
+            request({url,encoding: null}, function(error, response, body) {
+              if(!error) {
+                sharp.cache(false);
+                sharp(body).resize(70,70).toFile('lvl/profile_'+UserTag.id+'.png').then(function(){
+                sharp('lvl/bg1.png')
+                .overlayWith('lvl/profile_'+UserTag.id+'.png',{top:44+8, left:59})
+                .toFile('lvl/output.png').then(function(){
+                  sharp('lvl/output.png')
+                  .overlayWith('lvl/l'+watermarkText.level+'.png',{top:8, left:15})
+                  .toFile('lvl/output2.png').then(function(){
+                    // X =  50 * L * L - 50 * L
+                    // L = (50 + sqrt(50 * 50 - 4 * 50 * (-X) ))/ (2 * 50)
+                    var lastGoalExp = 50 * watermarkText.level * watermarkText.level  - 50 * watermarkText.level;
+                    var nextGoalExp = ( 50 * (watermarkText.level + 1) * (watermarkText.level + 1) - 50 * (watermarkText.level + 1) ) - lastGoalExp;
+                    var myExp = watermarkText.exp - lastGoalExp;
+                    var widthProgressBar = ( myExp * 100 / nextGoalExp ) * 166 / 100;
+
+                    const textedSVG = new Buffer(`<svg width="183" height="80">
+                      <text x="173" y="27" font-size="18" text-anchor="end" fill="#fff" style="font-family:tahoma">${watermarkText.rank}</text>
+                      <text x="173" y="47" font-size="18" text-anchor="end" fill="#fff" style="font-family:tahoma">${watermarkText.level}</text>
+                      <text x="173" y="67" font-size="12" text-anchor="end" fill="#000" style="font-family:tahoma" font-weight="bold">${watermarkText.exp}</text>
+                      <rect x="9" y="74" width="${widthProgressBar}" height="5" fill="#105bcb" />
+                     </svg>`);
+                    sharp('lvl/output2.png')
+                    .overlayWith(textedSVG,{top:163, left:0})
+                    .toFile('lvl/output3.png').then(function(){
+                      msg.delete(500);
+                      message.channel.send({
+                        file: "lvl/output3.png"
+                      });             
+                    });
+                  });
+                });      
+               });          
+              }
+              else
+                console.log("error");
             });
-          });      
-         });          
-        }
-      })
-    }
+          });
+        });        
+      });
+
+
+    });
   }
 
   if (message.content.startsWith("?addExp")) {
-    const UserTag = (message.content === "?addExp")? message.author:message.mentions.users.first();
-    if (client.lvl[message.author.id] != undefined)
-      client.lvl[message.author.id].point = client.lvl[message.author.id].point + parseInt(message.content.slice(8));
-    fs.writeFile("lvl.json",JSON.stringify(client.lvl,null,4),err =>{
-        if(err) throw err;
-        console.log("save in file");
+    const channelChat = oldMember.guild.channels.find(ch=>ch.name==='chat');
+    const UserTag = (message.mentions.users.first() === undefined)?message.author:message.mentions.users.first();
+    mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("heroku_38t2rv88");
+
+      dbo.collection("lvl").findOne({ id: UserTag.id }, function(err, result) {
+        if(result == null) message.channel.send("not found"); return;
+        mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+          if (err) throw err;
+          var dbo = db.db("heroku_38t2rv88");
+          var myquery = { id: UserTag.id };
+          var newvalues = { $set: {point: parseInt(message.content.slice(8)) + result.point} };
+          dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
+            if (err) throw err;
+            db.close();
+            channelChat.send(`${UserTag} You gain ${result.point} Exp`);
+          });
+        });
+      });
+
     });
-    ranks();
   }
-  // message.member.hasPermission("MANAGE_ROLES")
 });
+
 
 function ranks()
 {
-  const jsonAsArray = Object.keys(client.lvl).map(key => ({ id: key, point: client.lvl[key].point }))
-  .sort(function (itemA, itemB) {
-    return itemA.point < itemB.point;
-  });
-  return jsonAsArray;
+  return new Promise(function(resolve,reject){
+    mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("heroku_38t2rv88");
+      dbo.collection("lvl").find().sort({ point: -1 }).toArray(function(err, result) {
+        if (err) throw err;
+        db.close();
+        resolve(result);
+      });
+    });     
+  })
+
 }
 
-function myDataExp(idUser)
+function getInfoUser(idUser)
 {
   // X =  50 * L * L - 50 * L
   // L = (50 + sqrt(50 * 50 - 4 * 50 * (-X) ))/ (2 * 50)
+  return new Promise(function(resolve,reject){
+    mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("heroku_38t2rv88");
+      dbo.collection("lvl").find().sort({ point: -1 }).toArray(function(err, result) {
+        if (err) throw err;
+        db.close();
+        result.forEach(function(element,index) {
+          if(element.id == idUser)
+          {
+            var k = new Object();
+            k.rank = index + 1;
+            k.level = Math.floor((50 + Math.sqrt(50 * 50 - 4 * 50 * (-element.point) ))/ (2 * 50));
+            k.exp = element.point;
+            resolve(k);
+          }
+        });
+      });
+    });     
+  });
 
-  var k = new Object();
-  k.rank = ranks().map(function(e) { return e.id; }).indexOf(idUser)+1;
-  k.level = Math.floor((50 + Math.sqrt(50 * 50 - 4 * 50 * (-client.lvl[idUser].point) ))/ (2 * 50));
-  k.exp = client.lvl[idUser].point;
-  return k;
 }
 
 client.login(process.env.BOT_TOKEN);
