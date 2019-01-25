@@ -18,71 +18,58 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
   const channel=oldMember.guild.channels.find(ch=>ch.name==='voice-log');
 
   if(oldUserChannel === undefined && newUserChannel !== undefined) {
-    
-    console.log('User Joins a voice channel');
-    console.log('----------');
-    channel.send(`${newMember} joins ${newUserChannel}`);
-
-    // save in info
-    client.infos[newMember.id] = {
-      timeJoin:Math.floor(Date.now() / 1000)
+    if(!newMember.bot){
+      channel.send(`${newMember} joins ${newUserChannel}`);
+      // save in info
+      client.infos[newMember.id] = {
+        timeJoin:Math.floor(Date.now() / 1000)
+      }
+      fs.writeFile("data.json",JSON.stringify(client.infos,null,4),err =>{
+          if(err) throw err;
+          console.log("save in file");
+      });
     }
-    fs.writeFile("data.json",JSON.stringify(client.infos,null,4),err =>{
-        if(err) throw err;
-        console.log("save in file");
-    });
-
   } else if(newUserChannel === undefined){
+    if(!oldMember.bot){
+      channel.send(`${oldMember} leaves ${oldMember.voiceChannel}`);
 
-    console.log('User leaves a voice channel');
-    console.log('----------');
-    channel.send(`${oldMember} leaves ${oldMember.voiceChannel}`);
+      // save in info
+      var DureeInVoice = Math.floor(Date.now() / 1000) - client.infos[oldMember.id].timeJoin; // sec
 
-    // save in info
-    var DureeInVoice = Math.floor(Date.now() / 1000) - client.infos[oldMember.id].timeJoin; // sec
-
-    mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
-      if (err) throw err;
-      var dbo = db.db("heroku_38t2rv88");
-      dbo.collection("lvl").findOne({ id: oldMember.id }, function(err, result) {
+      mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
         if (err) throw err;
-        if(result == null){
-          //create
-          mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+        var dbo = db.db("heroku_38t2rv88");
+        dbo.collection("lvl").findOne({ id: oldMember.id }, function(err, result) {
           if (err) throw err;
-          var dbo = db.db("heroku_38t2rv88");
-          var myobj = { id: oldMember.id, point: parseInt(DureeInVoice) };
-          dbo.collection("lvl").insertOne(myobj, function(err, res) {
-            if (err) throw err;
-            db.close();
-          });
-        }); 
-        }else
-        {
-          //update
-          mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+          if(result == null){
+            //create
+            mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
             if (err) throw err;
             var dbo = db.db("heroku_38t2rv88");
-            var myquery = { id: oldMember.id };
-            var newvalues = { $set: {point: result.point + parseInt(DureeInVoice) } };
-            dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
+            var myobj = { id: oldMember.id, point: parseInt(DureeInVoice) };
+            dbo.collection("lvl").insertOne(myobj, function(err, res) {
               if (err) throw err;
               db.close();
             });
-          });
-        }
-        db.close();
-      });
-    }); 
-
-    /*
-    client.lvl[oldMember.id] = {
-      point:parseInt(DureeInVoice) + parseInt((client.lvl[oldMember.id] == undefined)?0:client.lvl[oldMember.id].point)
+          }); 
+          }else
+          {
+            //update
+            mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+              if (err) throw err;
+              var dbo = db.db("heroku_38t2rv88");
+              var myquery = { id: oldMember.id };
+              var newvalues = { $set: {point: result.point + parseInt(DureeInVoice) } };
+              dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
+                if (err) throw err;
+                db.close();
+              });
+            });
+          }
+          db.close();
+        });
+      }); 
     }
-    fs.writeFile("lvl.json",JSON.stringify(client.lvl,null,4),err =>{
-        if(err) throw err;
-        console.log("save in file");
-    });*/
   }
 })
 
