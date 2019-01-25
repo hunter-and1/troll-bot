@@ -587,7 +587,7 @@ if (message.content === "listemojis") {
       var dbo = db.db("heroku_38t2rv88");
 
       dbo.collection("lvl").findOne({ id: UserTag.id }, function(err, result) {
-        if(result == null) message.channel.send("not found"); return;
+        if(result == null) {message.channel.send("not found"); return;}
         mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
           if (err) throw err;
           var dbo = db.db("heroku_38t2rv88");
