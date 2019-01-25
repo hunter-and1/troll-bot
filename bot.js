@@ -32,43 +32,45 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
   } else if(newUserChannel === undefined){
     if(!oldMember.bot){
       channel.send(`${oldMember} leaves ${oldMember.voiceChannel}`);
+      if(client.infos[oldMember.id] !== undefined){
+        // save in info
+        var DureeInVoice = Math.floor( Math.floor(Date.now() / 1000) - client.infos[oldMember.id].timeJoin ) / 60;
 
-      // save in info
-      var DureeInVoice = Math.floor( Math.floor(Date.now() / 1000) - client.infos[oldMember.id].timeJoin ) / 60;
-
-      mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
-        if (err) throw err;
-        var dbo = db.db("heroku_38t2rv88");
-        dbo.collection("lvl").findOne({ id: oldMember.id }, function(err, result) {
+        mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
           if (err) throw err;
-          if(result == null){
-            //create
-            mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+          var dbo = db.db("heroku_38t2rv88");
+          dbo.collection("lvl").findOne({ id: oldMember.id }, function(err, result) {
             if (err) throw err;
-            var dbo = db.db("heroku_38t2rv88");
-            var myobj = { id: oldMember.id, point: parseInt(DureeInVoice) };
-            dbo.collection("lvl").insertOne(myobj, function(err, res) {
-              if (err) throw err;
-              db.close();
-            });
-          }); 
-          }else
-          {
-            //update
-            mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+            if(result == null){
+              //create
+              mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
               if (err) throw err;
               var dbo = db.db("heroku_38t2rv88");
-              var myquery = { id: oldMember.id };
-              var newvalues = { $set: {point: result.point + parseInt(DureeInVoice) } };
-              dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
+              var myobj = { id: oldMember.id, point: parseInt(DureeInVoice) };
+              dbo.collection("lvl").insertOne(myobj, function(err, res) {
                 if (err) throw err;
                 db.close();
               });
-            });
-          }
-          db.close();
-        });
-      }); 
+            }); 
+            }else
+            {
+              //update
+              mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+                if (err) throw err;
+                var dbo = db.db("heroku_38t2rv88");
+                var myquery = { id: oldMember.id };
+                var newvalues = { $set: {point: result.point + parseInt(DureeInVoice) } };
+                dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
+                  if (err) throw err;
+                  db.close();
+                });
+              });
+            }
+            db.close();
+          });
+        });         
+      }
+
     }
   }
 })
