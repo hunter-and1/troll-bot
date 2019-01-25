@@ -34,7 +34,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
       channel.send(`${oldMember} leaves ${oldMember.voiceChannel}`);
 
       // save in info
-      var DureeInVoice = Math.floor(Date.now() / 1000) - client.infos[oldMember.id].timeJoin; // sec
+      var DureeInVoice = Math.floor( Math.floor(Date.now() / 1000) - client.infos[oldMember.id].timeJoin ) / 60;
 
       mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
         if (err) throw err;
