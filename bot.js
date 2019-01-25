@@ -1,4 +1,6 @@
 const Discord = require('discord.js');
+const request = require('request')
+const sharp = require('sharp');
 const fs = require('fs');
 const client = new Discord.Client();
 client.infos = require('./data.json');
@@ -500,7 +502,76 @@ if (message.content === "listemojis") {
     }
   }
 
+  if (message.content.startsWith("?level")) {
+    if (client.lvl[message.author.id] == undefined) {
+      message.channel.send("not found");
+    }
+    else{
+      const UserTag = (message.content === "?level")? message.author:message.mentions.users.first();
+      const url = UserTag.displayAvatarURL;
+      const watermarkText = myDataExp(UserTag.id);
+      request({url,encoding: null}, function(error, response, body) {
+        if(!error) {
+        sharp.cache(false);
+          sharp(body).resize(70,70).toFile('lvl/profile_'+UserTag.id+'.png').then(function(){
+          sharp('lvl/bg1.png')
+          .overlayWith('lvl/profile_'+UserTag.id+'.png',{top:44+8, left:59})
+          .toFile('lvl/output.png').then(function(){
+            sharp('lvl/output.png')
+            .overlayWith('lvl/l'+watermarkText.level+'.png',{top:8, left:15})
+            .toFile('lvl/output2.png').then(function(){
+              const textedSVG = new Buffer(`<svg width="183" height="70">
+                <text x="173" y="25" font-size="18" text-anchor="end" fill="#fff" style="font-family:tahoma">${watermarkText.rank}</text>
+                <text x="173" y="45" font-size="18" text-anchor="end" fill="#fff" style="font-family:tahoma">${watermarkText.level}</text>
+                <text x="173" y="65" font-size="12" text-anchor="end" fill="#000" style="font-family:tahoma" font-weight="bold">${watermarkText.exp}</text>
+               </svg>`);
+              sharp('lvl/output2.png')
+              .overlayWith(textedSVG,{top:163, left:0})
+              .toFile('lvl/output3.png').then(function(){
+                message.channel.send({
+                  file: "lvl/output3.png"
+                });             
+              });
+            });
+          });      
+         });          
+        }
+      })
+    }
+  }
+
+  if (message.content.startsWith("?addExp")) {
+    const UserTag = (message.content === "?addExp")? message.author:message.mentions.users.first();
+    if (client.lvl[message.author.id] != undefined)
+      client.lvl[message.author.id].point = client.lvl[message.author.id].point + parseInt(message.content.slice(8));
+    fs.writeFile("lvl.json",JSON.stringify(client.lvl,null,4),err =>{
+        if(err) throw err;
+        console.log("save in file");
+    });
+    ranks();
+  }
   // message.member.hasPermission("MANAGE_ROLES")
 });
+
+function ranks()
+{
+  const jsonAsArray = Object.keys(client.lvl).map(key => ({ id: key, point: client.lvl[key].point }))
+  .sort(function (itemA, itemB) {
+    return itemA.point < itemB.point;
+  });
+  return jsonAsArray;
+}
+
+function myDataExp(idUser)
+{
+  // X =  50 * L * L - 50 * L
+  // L = (50 + sqrt(50 * 50 - 4 * 50 * (-X) ))/ (2 * 50)
+
+  var k = new Object();
+  k.rank = ranks().map(function(e) { return e.id; }).indexOf(idUser)+1;
+  k.level = Math.floor((50 + Math.sqrt(50 * 50 - 4 * 50 * (-client.lvl[idUser].point) ))/ (2 * 50));
+  k.exp = client.lvl[idUser].point;
+  return k;
+}
 
 client.login(process.env.BOT_TOKEN);
