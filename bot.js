@@ -592,11 +592,11 @@ if (message.content === "listemojis") {
           if (err) throw err;
           var dbo = db.db("heroku_38t2rv88");
           var myquery = { id: UserTag.id };
-          var newvalues = { $set: {point: parseInt(message.content.slice(8)) + result.point} };
+          var newvalues = { $set: {point: parseInt(message.content.slice(8)) + parseInt(result.point)} };
           dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
             if (err) throw err;
             db.close();
-            channelChat.send(`${UserTag} You gain ${result.point} Exp`);
+            channelChat.send(`${UserTag} You gain ${parseInt(message.content.slice(8))} Exp`);
           });
         });
       });
