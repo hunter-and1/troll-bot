@@ -580,7 +580,7 @@ if (message.content === "listemojis") {
   }
 
   if (message.content.startsWith("?addExp")) {
-    const channelChat = oldMember.guild.channels.find(ch=>ch.name==='chat');
+    const channelChat = message.guild.channels.find(ch=>ch.name==='chat');
     const UserTag = (message.mentions.users.first() === undefined)?message.author:message.mentions.users.first();
     mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
       if (err) throw err;
