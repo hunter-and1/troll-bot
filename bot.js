@@ -692,12 +692,10 @@ if (message.content === "listemojis") {
 function addEspace(text,numberDisponible)
 {
   var t = text;
-  for (var i = 0; i < (numberDisponible - text.lenght); i++) {
-    t = t + " ";
-  }
+  for (var i = 0; i < (numberDisponible - (text+"").length); i++)
+    t += " ";
   return t;
 }
-
 
 function ranks()
 {
