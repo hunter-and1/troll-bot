@@ -638,34 +638,25 @@ if (message.content === "listemojis") {
 
   if (message.content.startsWith("?rank")) {
     ranks().then(function(data){
-      var text = "```";
-      // 4 | 3 | 18 | 11
-      text += "  Rank  |  LVL  |  UserName            |  Point        \n";
-      text += "---------------------------------------------------\n";
       var level = 0;
-      data.forEach(function(element,index) {
-          level = Math.floor((50 + Math.sqrt(50 * 50 - 4 * 50 * (-element.point) ))/ (2 * 50));
-          text += "#"+(index + 1)+"  |  "+level+"   |   <@"+element.id+">  |  "+element.point+"\n";
-      });
-      text += "------------------------------------------------\n";
-      message.channel.send(text);
-    });
-  }  
-
-  if (message.content.startsWith("?rank2")) {
-    ranks().then(function(data){
       var text = "```";
       // 4 | 3 | 18 | 11
       text += "+-------------------------------------------------------+\n";
       text += "|  Rank  |  LVL  |  UserName            |  Point        |\n";
-      text += "|-------------------------------------------------------|\n";
-      var level = 0;
+      text += "|-------------------------------------------------------|\n```";
       data.forEach(function(element,index) {
           level = Math.floor((50 + Math.sqrt(50 * 50 - 4 * 50 * (-element.point) ))/ (2 * 50));
+          if(index == 0)
+            text += "```fix\n";
+          else if(index == 1)
+            text += "```glsl\n";
+          else if(index == 2)
+            text += "```diff\n";
+          else 
+            text += "```\n";
           text += "|  "+addEspace("#"+(index + 1),4)+"  |  "+addEspace(level,3)+"  |  "+addEspace(element.username ,18)+"  |  "+addEspace(element.point,11)+"  |\n";
-          text += "+-------------------------------------------------------+\n";
+          text += "```";
       });
-      text += "```";
       message.channel.send(text);
     });
   }  
