@@ -22,6 +22,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
       channel.send(`${newMember} joins ${newUserChannel}`);
       // save in info
       client.infos[newMember.id] = {
+        UserName:newMember.username,
         timeJoin:Math.floor(Date.now() / 1000)
       }
       fs.writeFile("data.json",JSON.stringify(client.infos,null,4),err =>{
@@ -46,7 +47,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
               mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
               if (err) throw err;
               var dbo = db.db("heroku_38t2rv88");
-              var myobj = { id: oldMember.id, point: parseInt(DureeInVoice) };
+              var myobj = { id: oldMember.id,username:oldMember.username, point: parseInt(DureeInVoice) };
               dbo.collection("lvl").insertOne(myobj, function(err, res) {
                 if (err) throw err;
                 db.close();
@@ -637,12 +638,34 @@ if (message.content === "listemojis") {
 
   if (message.content.startsWith("?rank")) {
     ranks().then(function(data){
-      var text = "Rank  |  ID  |  LVL  |   point \n--------------------------------------\n";
+      var text = "```";
+      // 4 | 3 | 18 | 11
+      text += "  Rank  |  LVL  |  UserName            |  Point        \n";
+      text += "---------------------------------------------------\n";
       var level = 0;
       data.forEach(function(element,index) {
           level = Math.floor((50 + Math.sqrt(50 * 50 - 4 * 50 * (-element.point) ))/ (2 * 50));
-          text += "#"+(index + 1)+"  |  <@"+element.id+">  |  "+level+"  |  "+element.point+"\n";
+          text += "#"+(index + 1)+"  |  "+level+"   |   <@"+element.id+">  |  "+element.point+"\n";
       });
+      text += "------------------------------------------------\n";
+      message.channel.send(text);
+    });
+  }  
+
+  if (message.content.startsWith("?rank2")) {
+    ranks().then(function(data){
+      var text = "```";
+      // 4 | 3 | 18 | 11
+      text += "+-------------------------------------------------------+\n";
+      text += "|  Rank  |  LVL  |  UserName            |  Point        |\n";
+      text += "|-------------------------------------------------------|\n";
+      var level = 0;
+      data.forEach(function(element,index) {
+          level = Math.floor((50 + Math.sqrt(50 * 50 - 4 * 50 * (-element.point) ))/ (2 * 50));
+          text += "|  "+addEspace("#"+(index + 1),4)+"  |  "+addEspace(level,3)+"  |  "+addEspace(element.username ,18)+"  |  "+addEspace(element.point,11)+"  |\n";
+          text += "+-------------------------------------------------------+\n";
+      });
+      text += "```";
       message.channel.send(text);
     });
   }  
@@ -674,6 +697,15 @@ if (message.content === "listemojis") {
     });
   }
 });
+
+function addEspace(text,numberDisponible)
+{
+  var t = text;
+  for (var i = 0; i < (numberDisponible - text.lenght); i++) {
+    t = t + " ";
+  }
+  return t;
+}
 
 
 function ranks()
