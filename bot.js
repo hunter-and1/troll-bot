@@ -59,7 +59,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
                 if (err) throw err;
                 var dbo = db.db("heroku_38t2rv88");
                 var myquery = { id: oldMember.id };
-                var newvalues = { $set: {point: result.point + parseInt(DureeInVoice) } };
+                var newvalues = { $set: {point: parseInt(result.point) + parseInt(DureeInVoice) } };
                 dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
                   if (err) throw err;
                   db.close();
@@ -103,7 +103,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
                   if (err) throw err;
                   var dbo = db.db("heroku_38t2rv88");
                   var myquery = { id: oldMember.id };
-                  var newvalues = { $set: {point: result.point + parseInt(DureeInVoice) } };
+                  var newvalues = { $set: {point: parseInt(result.point) + parseInt(DureeInVoice) } };
                   dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
                     if (err) throw err;
                     db.close();
