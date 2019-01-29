@@ -90,7 +90,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
                 mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
                 if (err) throw err;
                 var dbo = db.db("heroku_38t2rv88");
-                var myobj = { id: oldMember.id,oldMember.displayName,point: parseInt(DureeInVoice) };
+                var myobj = { id: oldMember.id,username:oldMember.displayName,point: parseInt(DureeInVoice) };
                 dbo.collection("lvl").insertOne(myobj, function(err, res) {
                   if (err) throw err;
                   db.close();
