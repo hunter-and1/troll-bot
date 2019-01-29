@@ -22,7 +22,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
       channel.send(`${newMember} joins ${newUserChannel}`);
       // save in info
       client.infos[newMember.id] = {
-        UserName:newMember.username,
+        UserName:newMember.displayName,
         timeJoin:Math.floor(Date.now() / 1000)
       }
       fs.writeFile("data.json",JSON.stringify(client.infos,null,4),err =>{
@@ -47,7 +47,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
               mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
               if (err) throw err;
               var dbo = db.db("heroku_38t2rv88");
-              var myobj = { id: oldMember.id,username:oldMember.username, point: parseInt(DureeInVoice) };
+              var myobj = { id: oldMember.id,username:oldMember.displayName, point: parseInt(DureeInVoice) };
               dbo.collection("lvl").insertOne(myobj, function(err, res) {
                 if (err) throw err;
                 db.close();
@@ -91,7 +91,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
                 mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
                 if (err) throw err;
                 var dbo = db.db("heroku_38t2rv88");
-                var myobj = { id: oldMember.id, point: parseInt(DureeInVoice) };
+                var myobj = { id: oldMember.id,oldMember.displayName,point: parseInt(DureeInVoice) };
                 dbo.collection("lvl").insertOne(myobj, function(err, res) {
                   if (err) throw err;
                   db.close();
@@ -631,35 +631,31 @@ if (message.content === "listemojis") {
           });
         });        
       });
-
-
     });
   }
 
   if (message.content.startsWith("?rank")) {
     ranks().then(function(data){
       var level = 0;
-      var text = "```";
-      // 4 | 3 | 18 | 11
-      text += "+-------------------------------------------------------+\n";
-      text += "|  Rank  |  LVL  |  UserName            |  Point        |\n";
-      text += "|-------------------------------------------------------|\n```";
+      var text = "";
+      var new_line = 0;
       data.forEach(function(element,index) {
-          level = Math.floor((50 + Math.sqrt(50 * 50 - 4 * 50 * (-element.point) ))/ (2 * 50));
-          if(index == 0)
-            text += "```fix\n";
-          else if(index == 1)
-            text += "```glsl\n";
-          else if(index == 2)
-            text += "```diff\n";
-          else 
-            text += "```\n";
-          text += "|  "+addEspace("#"+(index + 1),4)+"  |  "+addEspace(level,3)+"  |  "+addEspace(element.username ,18)+"  |  "+addEspace(element.point,11)+"  |\n";
-          text += "```";
+        new_line += 28;
+        level = Math.floor((50 + Math.sqrt(50 * 50 - 4 * 50 * (-element.point) ))/ (2 * 50));
+        text += '<text x="0" y="'+new_line+'" font-size="15" fill="#fff" style="font-family:tahoma">'+element.username+' [ '+level+' ] </text>';
+        text += '<text x="295" y="'+new_line+'" font-size="15" text-anchor="end" fill="#fff" style="font-family:tahoma">'+element.point+'</text>';
       });
-      message.channel.send(text);
+      console.log(text);
+      const textedSVG = new Buffer(`<svg width="312" height="280">${text}</svg>`);
+      sharp('lvl/bg_ranked.png')
+      .overlayWith(textedSVG,{top:65, left:69})
+      .toFile('lvl/rankedout.png').then(function(){
+        message.channel.send({
+          file: "lvl/rankedout.png"
+        });             
+      });
     });
-  }  
+  }
 
   if (message.content.startsWith("?addExp")) {
     const channelChat = message.guild.channels.find(ch=>ch.name==='chat');
@@ -703,14 +699,13 @@ function ranks()
     mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
       if (err) throw err;
       var dbo = db.db("heroku_38t2rv88");
-      dbo.collection("lvl").find().sort({ point: -1 }).toArray(function(err, result) {
+      dbo.collection("lvl").find().sort({ point: -1 }).limit(10).toArray(function(err, result) {
         if (err) throw err;
         db.close();
         resolve(result);
       });
     });     
   })
-
 }
 
 function getInfoUser(idUser)
