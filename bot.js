@@ -116,7 +116,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
         }
       }      
     }
-    else{
+    else if(oldUserChannel.name == 'AFK'){
       if(!newMember.bot){
         channel.send(`${newMember} joins ${newUserChannel}`);
         // save in info
@@ -148,7 +148,7 @@ client.on('guildMemberAdd', member => {
   {
     let role = member.guild.roles.find(role => role.name === "Wait to approval");
     member.addRole(role);
-    member.guild.channels.find(channel => channel.name == "chat").send('\"'+member.user.username+'\" Berhba bik f group MD-gang');
+    member.guild.channels.find(channel => channel.name == "chat").send('\"'+member.user.username+'\" Merhba bik f group MD-gang');
   }
 })
 
@@ -644,7 +644,6 @@ if (message.content === "listemojis") {
         text += '<text x="0" y="'+new_line+'" font-size="15" fill="#fff" style="font-family:tahoma">'+element.username+' [ '+level+' ] </text>';
         text += '<text x="295" y="'+new_line+'" font-size="15" text-anchor="end" fill="#fff" style="font-family:tahoma">'+element.point+'</text>';
       });
-      console.log(text);
       const textedSVG = new Buffer(`<svg width="312" height="280">${text}</svg>`);
       sharp('lvl/bg_ranked.png')
       .overlayWith(textedSVG,{top:65, left:69})
