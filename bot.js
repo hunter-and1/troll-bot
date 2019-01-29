@@ -7,7 +7,6 @@ const mongodb_url = process.env.MONGOLAB_AMBER_URI;
 
 const client = new Discord.Client();
 client.infos = require('./data.json');
-//client.lvl = require('./lvl.json');
 
 var listsv = [];
 
