@@ -609,7 +609,7 @@ if (message.content === "listemojis") {
                     const textedSVG = new Buffer(`<svg width="183" height="120">
                       <text x="173" y="39" font-size="18" text-anchor="end" fill="#fff" style="font-family:tahoma">${watermarkText.rank}</text>
                       <text x="173" y="59" font-size="18" text-anchor="end" fill="#fff" style="font-family:tahoma">${watermarkText.level}</text>
-                      <text x="173" y="79" font-size="12" text-anchor="end" fill="#000" style="font-family:tahoma" font-weight="bold">${watermarkText.exp}</text>
+                      <text x="173" y="79" font-size="12" text-anchor="end" fill="#000" style="font-family:tahoma" font-weight="bold">${watermarkText.exp}/${nextGoalExp}</text>
                       <rect x="8" y="87" width="${widthProgressBar}" height="5" fill="#105bcb" />
                       <text x="91" y="111" font-size="15" text-anchor="middle" fill="#000" style="font-family: 'tahoma'; font-weight:normal; font-style: normal">${watermarkText.username}</text>
                      </svg>`);
