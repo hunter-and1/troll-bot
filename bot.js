@@ -606,11 +606,12 @@ if (message.content === "listemojis") {
                     var myExp = watermarkText.exp - lastGoalExp;
                     var widthProgressBar = ( myExp * 100 / nextGoalExp ) * 166 / 100;
 
-                    const textedSVG = new Buffer(`<svg width="183" height="80">
-                      <text x="173" y="27" font-size="18" text-anchor="end" fill="#fff" style="font-family:tahoma">${watermarkText.rank}</text>
-                      <text x="173" y="47" font-size="18" text-anchor="end" fill="#fff" style="font-family:tahoma">${watermarkText.level}</text>
-                      <text x="173" y="67" font-size="12" text-anchor="end" fill="#000" style="font-family:tahoma" font-weight="bold">${watermarkText.exp}</text>
-                      <rect x="9" y="74" width="${widthProgressBar}" height="5" fill="#105bcb" />
+                    const textedSVG = new Buffer(`<svg width="183" height="120">
+                      <text x="173" y="39" font-size="18" text-anchor="end" fill="#fff" style="font-family:tahoma">${watermarkText.rank}</text>
+                      <text x="173" y="59" font-size="18" text-anchor="end" fill="#fff" style="font-family:tahoma">${watermarkText.level}</text>
+                      <text x="173" y="79" font-size="12" text-anchor="end" fill="#000" style="font-family:tahoma" font-weight="bold">${watermarkText.exp}</text>
+                      <rect x="8" y="87" width="${widthProgressBar}" height="5" fill="#105bcb" />
+                      <text x="91" y="111" font-size="15" text-anchor="middle" fill="#000" style="font-family: 'tahoma'; font-weight:normal; font-style: normal">${watermarkText.username}</text>
                      </svg>`);
                     sharp('lvl/output2.png')
                     .overlayWith(textedSVG,{top:163, left:0})
@@ -724,6 +725,7 @@ function getInfoUser(idUser)
             k.rank = index + 1;
             k.level = Math.floor((50 + Math.sqrt(50 * 50 - 4 * 50 * (-element.point) ))/ (2 * 50));
             k.exp = element.point;
+            k.username = element.username;
             resolve(k);
           }
         });
