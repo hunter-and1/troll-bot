@@ -8,7 +8,6 @@ const mongodb_url = process.env.MONGOLAB_AMBER_URI;
 const client = new Discord.Client();
 client.infos = require('./data.json');
 
-var listsv = [];
 
 client.on('voiceStateUpdate', (oldMember, newMember) => {
   let newUserChannel = newMember.voiceChannel
@@ -157,29 +156,8 @@ client.on('message', message => {
   
   if(message.author.bot) return;
 
-  if (message.content.startsWith('?clan')) {
-    message.channel.send("ᴹᴰ✮"+message.author.username);
-  }
-
   if (message.content.startsWith('?setGame')) {
     client.user.setGame(message.content.replace('?setGame','').trim());
-  }
-
-  if (message.content.startsWith('?add')) {
-    var messagesplit = message.content.split(" ");
-    listsv.push(messagesplit[1]);
-	}
-    
-  if (message.content.startsWith('?sv')) {
-    var textreplay = "";
-    for (var i = 1; i <= listsv.length; i++)
-      textreplay += i+' - '+listsv[i-1]+'\n';
-    
-    message.channel.send(textreplay);
-  }
-
-  if (message.content.startsWith("?clear")) {
-    listsv = [];
   }
 
   if (message.content.startsWith('?tfari9a')) {
@@ -195,23 +173,7 @@ client.on('message', message => {
       });      
     }
   }
-  /*
-  if(message.content.toLowerCase().indexOf("dab") >= 0){
-    message.channel.send({files: [
-      {
-        attachment: 'images/DAB.jpeg',
-        name: "DAB.jpeg"
-      }
-    ]});
-  }
-  if(message.content.toLowerCase().indexOf("ree") >= 0){
-    message.channel.send({files: [
-      {
-        attachment: 'images/REE.gif',
-        name: "REE.gif"
-      }
-    ]});
-  }*/ 
+
   if(message.content.toLowerCase().indexOf("???") >= 0){
     message.channel.send({files: [
       {
