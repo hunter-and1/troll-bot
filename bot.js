@@ -484,51 +484,62 @@ function reactText(msg,codeCall,imgLink)
 
 function addRow(table,object)
 {
-  mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("heroku_38t2rv88");
-    dbo.collection(table).insertOne(object, function(err, res) {
+  return new Promise(function(resolve,reject){
+    mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
       if (err) throw err;
-      db.close();
-    });
-  }); 
+      var dbo = db.db("heroku_38t2rv88");
+      dbo.collection(table).insertOne(object, function(err, res) {
+        if (err) throw err;
+        db.close();
+        resolve(res);
+      });
+    }); 
+  });
 }
 
 function update(table,id,object)
 {
-  mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("heroku_38t2rv88");
-    dbo.collection(table).updateOne({ id: id }, { $set: object }, function(err, res) {
+  return new Promise(function(resolve,reject){
+    mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
       if (err) throw err;
-      db.close();
+      var dbo = db.db("heroku_38t2rv88");
+      dbo.collection(table).updateOne({ id: id }, { $set: object }, function(err, res) {
+        if (err) throw err;
+        db.close();
+        resolve(res);
+      });
     });
   });
 }
 
 function findItem(table,id)
 {
-  mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("heroku_38t2rv88");
-    dbo.collection(table).findOne({ id: id }, function(err, result) {
+  return new Promise(function(resolve,reject){
+    mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
       if (err) throw err;
-      db.close();
-      return result;
-    });
-  }); 
+      var dbo = db.db("heroku_38t2rv88");
+      dbo.collection(table).findOne({ id: id }, function(err, result) {
+        if (err) throw err;
+        db.close();
+        resolve(result);
+      });
+    }); 
+  });
 }
 
 function createCollection(table)
 {
-  mdbClient.connect(mongodb_url,{useNewUrlParser: true},function(err,db){
-    if(err) throw err;
-    var dbo = db.db("heroku_38t2rv88");
-    dbo.createCollection(table,function(err,res){
+  return new Promise(function(resolve,reject){
+    mdbClient.connect(mongodb_url,{useNewUrlParser: true},function(err,db){
       if(err) throw err;
-      db.close();
-    });
-  }); 
+      var dbo = db.db("heroku_38t2rv88");
+      dbo.createCollection(table,function(err,res){
+        if(err) throw err;
+        db.close();
+        resolve(res);
+      });
+    }); 
+  });
 }
 
 function addEspace(text,numberDisponible)
