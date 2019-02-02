@@ -1,14 +1,30 @@
-const Discord = require('discord.js');
-const request = require('request');
-const sharp = require('sharp');
-const fs = require('fs');
+//Requires
 const mdbClient = require('mongodb').MongoClient;
+const Discord   = require('discord.js');
+const request   = require('request');
+const sharp     = require('sharp');
+const fs        = require('fs');
+
+// Objects
+const client = new Discord.Client();
+
+// ENV
 const mongodb_url = process.env.MONGOLAB_AMBER_URI;
 
-const client = new Discord.Client();
-client.infos = require('./data.json');
+// New User in group
+client.on('guildMemberAdd', member => {
+  if(member.user.bot){
+    let role = member.guild.roles.find(role => role.name === "Bots");
+    member.addRole(role);
+  }
+  else{
+    let role = member.guild.roles.find(role => role.name === "Wait to approval");
+    member.addRole(role);
+    member.guild.channels.find(channel => channel.name == "chat").send('\"'+member.user.username+'\" Merhba bik f group MD-gang');
+  }
+})
 
-
+// voiceStateUpdate
 client.on('voiceStateUpdate', (oldMember, newMember) => {
   let newUserChannel = newMember.voiceChannel
   let oldUserChannel = oldMember.voiceChannel
@@ -16,145 +32,112 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
   const channel=oldMember.guild.channels.find(ch=>ch.name==='voice-log');
 
   if(oldUserChannel === undefined && newUserChannel !== undefined) {
-    if(!newMember.bot){
+    if(!newMember.user.bot){
+      //Join to channel
       channel.send(`${newMember} joins ${newUserChannel}`);
-      // save in info
-      client.infos[newMember.id] = {
-        UserName:newMember.displayName,
-        timeJoin:Math.floor(Date.now() / 1000)
-      }
-      fs.writeFile("data.json",JSON.stringify(client.infos,null,4),err =>{
-          if(err) throw err;
-          console.log("save in file");
+      findItem('data',newMember.id).then(function(r){
+        if(r == null){
+          //add new data login
+          addRow('data',{id: newMember.id,username:newMember.displayName,join:Math.floor(Date.now() / 1000)});
+        }
+        else{
+          //add update data login
+          update('data',newMember.id,{username:newMember.displayName,join:Math.floor(Date.now() / 1000)});
+        }
       });
     }
   } else if(newUserChannel === undefined){
-    if(!oldMember.bot){
+    if(!oldMember.user.bot){
+      //Leave to channel
       channel.send(`${oldMember} leaves ${oldMember.voiceChannel}`);
-      if(client.infos[oldMember.id] !== undefined){
-        // save in info
-        var DureeInVoice = Math.floor( Math.floor(Date.now() / 1000) - client.infos[oldMember.id].timeJoin ) / 60;
-
-        mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
-          if (err) throw err;
-          var dbo = db.db("heroku_38t2rv88");
-          dbo.collection("lvl").findOne({ id: oldMember.id }, function(err, result) {
-            if (err) throw err;
-            if(result == null){
-              //create
-              mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
-              if (err) throw err;
-              var dbo = db.db("heroku_38t2rv88");
-              var myobj = { id: oldMember.id,username:oldMember.displayName, point: parseInt(DureeInVoice) };
-              dbo.collection("lvl").insertOne(myobj, function(err, res) {
-                if (err) throw err;
-                db.close();
-              });
-            }); 
-            }else
-            {
-              //update
-              mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
-                if (err) throw err;
-                var dbo = db.db("heroku_38t2rv88");
-                var myquery = { id: oldMember.id };
-                var newvalues = { $set: {point: parseInt(result.point) + parseInt(DureeInVoice) } };
-                dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
-                  if (err) throw err;
-                  db.close();
-                });
-              });
+      findItem('data',oldMember.id).then(function(r){
+        if(r == null){
+          //case impossible
+        }
+        else{
+          //logout and calu duree in chaneel voice
+          var DureeInVoice = Math.floor( Math.floor(Date.now() / 1000) - r.join ) / 60;
+          findItem('lvl',oldMember.id).then(function(r2){
+            if(r2 == null){
+              //first time in chaneel voice
+              addRow('lvl',{id: oldMember.id,username:oldMember.displayName,point:parseInt(DureeInVoice)});
             }
-            db.close();
+            else{
+              //update scorre user
+              update('lvl',oldMember.id,{username:oldMember.displayName,point:parseInt(DureeInVoice) + parseInt(r2.point)});
+            }
           });
-        });         
+        }
+      });
+    }
+  } else if (oldUserChannel !== null && newUserChannel !== null){
+    if(newUserChannel.name == 'AFK'){
+      if(!oldMember.user.bot){
+        //Move to channel AFK (leave)
+        channel.send(`${oldMember} move to AFK`);
+        findItem('data',oldMember.id).then(function(r){
+          if(r == null){
+            //case impossible
+          }
+          else{
+            //logout and calu duree in chaneel voice
+            var DureeInVoice = Math.floor( Math.floor(Date.now() / 1000) - r.join ) / 60;
+            findItem('lvl',oldMember.id).then(function(r2){
+              if(r2 == null){
+                //first time in chaneel voice
+                addRow('lvl',{id: oldMember.id,username:oldMember.displayName,point:parseInt(DureeInVoice)});
+              }
+              else{
+                //update scorre user
+                update('lvl',oldMember.id,{username:oldMember.displayName,point:parseInt(DureeInVoice) + parseInt(r2.point)});
+              }
+            });
+          }
+        });
       }
     }
-  } else if (oldUserChannel !== null && newUserChannel !== null) {
-    if(newUserChannel.name == 'AFK')
-    {
-      if(!oldMember.bot){
-        channel.send(`${oldMember} leaves ${oldMember.voiceChannel}`);
-        if(client.infos[oldMember.id] !== undefined){
-          // save in info
-          var DureeInVoice = Math.floor( Math.floor(Date.now() / 1000) - client.infos[oldMember.id].timeJoin ) / 60;
-
-          mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("heroku_38t2rv88");
-            dbo.collection("lvl").findOne({ id: oldMember.id }, function(err, result) {
-              if (err) throw err;
-              if(result == null){
-                //create
-                mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
-                if (err) throw err;
-                var dbo = db.db("heroku_38t2rv88");
-                var myobj = { id: oldMember.id,username:oldMember.displayName,point: parseInt(DureeInVoice) };
-                dbo.collection("lvl").insertOne(myobj, function(err, res) {
-                  if (err) throw err;
-                  db.close();
-                });
-              }); 
-              }else
-              {
-                //update
-                mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
-                  if (err) throw err;
-                  var dbo = db.db("heroku_38t2rv88");
-                  var myquery = { id: oldMember.id };
-                  var newvalues = { $set: {point: parseInt(result.point) + parseInt(DureeInVoice) } };
-                  dbo.collection("lvl").updateOne(myquery, newvalues, function(err, res) {
-                    if (err) throw err;
-                    db.close();
-                  });
-                });
-              }
-              db.close();
-            });
-          });         
-        }
-      }      
-    }
     else if(oldUserChannel.name == 'AFK'){
-      if(!newMember.bot){
-        channel.send(`${newMember} joins ${newUserChannel}`);
-        // save in info
-        client.infos[newMember.id] = {
-          timeJoin:Math.floor(Date.now() / 1000)
-        }
-        fs.writeFile("data.json",JSON.stringify(client.infos,null,4),err =>{
-            if(err) throw err;
-            console.log("save in file");
+      if(!newMember.user.bot){
+        //Back from channel AFK (Join)
+        channel.send(`${oldMember} return from AFK`);
+        findItem('data',newMember.id).then(function(r){
+          if(r == null){
+            //add new data login
+            addRow('data',{id: newMember.id,username:newMember.displayName,join:Math.floor(Date.now() / 1000)});
+          }
+          else{
+            //add update data login
+            update('data',newMember.id,{username:newMember.displayName,join:Math.floor(Date.now() / 1000)});
+          }
         });
-      }      
+      }
     }
   }
 })
-
 
 client.on('ready', () => {
   console.log('I am ready!');
-  client.user.setUsername("MD-Gang");
+  createCollection("lvl");
+  createCollection("data");
+  //client.user.setUsername("MD-Gang");
 });
-
-client.on('guildMemberAdd', member => {
-  if(member.user.bot)
-  {
-    let role = member.guild.roles.find(role => role.name === "Bots");
-    member.addRole(role);
-  }
-  else
-  {
-    let role = member.guild.roles.find(role => role.name === "Wait to approval");
-    member.addRole(role);
-    member.guild.channels.find(channel => channel.name == "chat").send('\"'+member.user.username+'\" Merhba bik f group MD-gang');
-  }
-})
-
 
 client.on('message', message => {
   
   if(message.author.bot) return;
+
+  reactText(message,"???","images/WHAT.png");
+  reactText(message,"oof","images/OOF.png");
+  reactText(message,"yeet","images/YEET.png");
+  reactText(message,"i mean","images/MEAN.png");
+  reactText(message,"chriff","images/chriff.png");
+
+  reactVoice(message,"uhmadi","./audio/hmadi.ogg");
+  reactVoice(message,"u55","./audio/55.ogg");
+  reactVoice(message,"uvitesse","./audio/vitesse.ogg");
+  reactVoice(message,"u3lachtkdb","./audio/3lachtkdb.ogg");
+  reactVoice(message,"utisa3","./audio/tisa3.ogg");
+  reactVoice(message,"usaricool","./audio/usaricool.ogg");
 
   if (message.content.startsWith('?setGame')) {
     client.user.setGame(message.content.replace('?setGame','').trim());
@@ -174,174 +157,16 @@ client.on('message', message => {
     }
   }
 
-  if(message.content.toLowerCase().indexOf("???") >= 0){
-    message.channel.send({files: [
-      {
-        attachment: 'images/WHAT.png',
-        name: "WHAT.PNG"
-      }
-    ]});
-  }
-  if(message.content.toLowerCase().indexOf("oof") >= 0){
-    message.channel.send({files: [
-      {
-        attachment: 'images/OOF.png',
-        name: "OOF.png"
-      }
-    ]});
-  }
-  if(message.content.toLowerCase().indexOf("yeet") >= 0){
-    message.channel.send({files: [
-      {
-        attachment: 'images/YEET.png',
-        name: "YEET.png"
-      }
-    ]});
-  }
-
-  if(message.content.toLowerCase().indexOf("i mean") >= 0){
-    message.channel.send({files: [
-      {
-        attachment: 'images/MEAN.png',
-        name: "MEAN.png"
-      }
-    ]});
-  }
-
-  if(message.content.toLowerCase().indexOf("chriff") >= 0){
-    message.channel.send({files: [
-      {
-        attachment: 'images/chriff.png',
-        name: "chriff.png"
-      }
-    ]});
-  }
-
   if (message.content.startsWith('?calu')) {
     var math = message.content.split(" ")[1];
     message.channel.send(eval(math));
   }
 
-  if (message.content.startsWith("uhmadi")) {
-    var VC = message.member.voiceChannel;
-    if (VC)
-    {
-      VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/hmadi.ogg', { type: 'ogg/opus' });
-          dispatcher.on(
-            'end', end => {VC.leave();}
-          );
-      }).catch(console.error);      
-    }
-    else
-    message.channel.send('You must be in a Voice Channel ');
+  if (message.content === "listemojis") {
+     const emojiList = message.guild.emojis.map((e, x) => (x + ' = ' + e) + ' | ' +e.name).join('\n');
+     message.channel.send(emojiList);
   }
 
-  if (message.content.startsWith("u55")) {
-    var VC = message.member.voiceChannel;
-    if (VC)
-    {
-      VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/55.ogg', { type: 'ogg/opus' });
-          dispatcher.on(
-            'end', end => {VC.leave();}
-          );
-      }).catch(console.error);      
-    }
-    else
-    message.channel.send('You must be in a Voice Channel ');
-  }
-
-
-  if (message.content.startsWith("uvitesse")) {
-
-    var voiceChannel = message.member.voiceChannel;
-    if (!voiceChannel) {
-      return message.reply('You must be in a Voice Channel!');
-    }
-    voiceChannel.join().then(connection => {
-      //const dispatcher = connection.play("https://raw.githubusercontent.com/hunter-and1/troll-bot/master/audio/vitesse.ogg", { type: 'ogg/opus' });
-      const dispatcher = connection.playFile("./audio/vitesse.ogg", { type: 'ogg/opus' });
-      //dispatcher.setVolume(1);
-      dispatcher.on("end", end => {
-        voiceChannel.leave();
-      });
-    }).catch(err => console.log(err));
-
-    /*
-    var VC = message.member.voiceChannel;
-    if (VC)
-    {
-      VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/vitesse.ogg');
-          dispatcher.on(
-            'start', start => {connection.player.streamingData.pausedTime = 0;},
-            'end', end => {VC.leave();}
-          );
-      }).catch(console.error);      
-    }
-    else
-    message.channel.send('You must be in a Voice Channel ');*/
-  }
-
-
-  if (message.content.startsWith("u3lachtkdb")) {
-    var VC = message.member.voiceChannel;
-    if (VC)
-    {
-      VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/3lachtkdb.ogg', { type: 'ogg/opus' });
-          dispatcher.on(
-            'end', end => {VC.leave();}
-          );
-      }).catch(console.error);      
-    }
-    else
-    message.channel.send('You must be in a Voice Channel ');
-  }
-
-  if (message.content.startsWith("utisa3")) {
-    var VC = message.member.voiceChannel;
-    if (VC)
-    {
-      VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/tisa3.ogg', { type: 'ogg/opus' });
-          dispatcher.on(
-            'end', end => {VC.leave();}
-          );
-      }).catch(console.error);      
-    }
-    else
-    message.channel.send('You must be in a Voice Channel ');
-  }
-
-
-  if (message.content.startsWith("usaricool")) {
-    var VC = message.member.voiceChannel;
-    if (VC)
-    {
-      VC.join().then(connection => {
-          const dispatcher = connection.playFile('./audio/saricoll.ogg', { type: 'ogg/opus' });
-          dispatcher.on(
-            'end', end => {VC.leave();}
-          );
-      }).catch(console.error);      
-    }
-    else
-    message.channel.send('You must be in a Voice Channel ');
-  }
-
-
-  if(message.content.toLowerCase().indexOf("chkon amazighi") >= 0){
-    message.channel.send('houa chriff');
-  }
-
-if (message.content === "listemojis") {
-   const emojiList = message.guild.emojis.map((e, x) => (x + ' = ' + e) + ' | ' +e.name).join('\n');
-   message.channel.send(emojiList);
-}
-
-  //?vote @dfsdfsd @sdfsdfsd
   if (message.content.startsWith('?vote')) {
     var txt = message.content.replace('?vote','').trim();
     message.channel.send("Vote :\n ***"+txt+"***")
@@ -350,18 +175,6 @@ if (message.content === "listemojis") {
         message.react("535835102882693153")
       });
   }
-
-  /*
-  if (message.content.startsWith('?ping')) {
-      message.channel.send({embed: {
-          color: 0x2ed32e,
-          fields: [{
-              name: "Pong",
-              value: "My Ping: " + Math.round(client.ping) + ' ms'
-          }],
-      }
-    })
-  }*/
 
   if(message.content.toLowerCase().indexOf("discord.gg") >= 0){
     message.delete(1000)
@@ -382,7 +195,6 @@ if (message.content === "listemojis") {
 
       message.channel.send(embed);
   }
-
 
   if(message.content.toLowerCase().indexOf("?pubg") >= 0){
     var txt = message.content.replace('?pubg','').trim().toLowerCase();
@@ -645,6 +457,79 @@ if (message.content === "listemojis") {
     });
   }
 });
+
+function reactVoice(msg,codeCall,audioLink)
+{
+  if (msg.content.startsWith(codeCall)) {
+    var VC = msg.member.voiceChannel;
+    if (VC)
+    {
+      VC.join().then(connection => {
+          const dispatcher = connection.playFile(audioLink, { type: 'ogg/opus' });
+          dispatcher.on(
+            'end', end => {VC.leave();}
+          );
+      }).catch(console.error);      
+    }
+    else
+    msg.channel.send('You must be in a Voice Channel ');
+  }
+}
+
+function reactText(msg,codeCall,imgLink)
+{
+  if(msg.content.toLowerCase().indexOf(codeCall) >= 0)
+    msg.channel.send({files: [{attachment: imgLink}]});
+}
+
+function addRow(table,object)
+{
+  mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("heroku_38t2rv88");
+    dbo.collection(table).insertOne(object, function(err, res) {
+      if (err) throw err;
+      db.close();
+    });
+  }); 
+}
+
+function update(table,id,object)
+{
+  mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("heroku_38t2rv88");
+    dbo.collection(table).updateOne({ id: id }, { $set: object }, function(err, res) {
+      if (err) throw err;
+      db.close();
+    });
+  });
+}
+
+function findItem(table,id)
+{
+  mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("heroku_38t2rv88");
+    dbo.collection(table).findOne({ id: id }, function(err, result) {
+      if (err) throw err;
+      db.close();
+      return result;
+    });
+  }); 
+}
+
+function createCollection(table)
+{
+  mdbClient.connect(mongodb_url,{useNewUrlParser: true},function(err,db){
+    if(err) throw err;
+    var dbo = db.db("heroku_38t2rv88");
+    dbo.createCollection(table,function(err,res){
+      if(err) throw err;
+      db.close();
+    });
+  }); 
+}
 
 function addEspace(text,numberDisponible)
 {
