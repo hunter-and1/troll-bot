@@ -33,42 +33,46 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
   if(oldUserChannel === undefined && newUserChannel !== undefined) {
     if(!newMember.user.bot){
-      //Join to channel
-      channel.send(`${newMember} joins ${newUserChannel}`);
-      findItem('data',newMember.id).then(function(r){
-        if(r == null){
-          //add new data login
-          addRow('data',{id: newMember.id,username:newMember.displayName,join:Math.floor(Date.now() / 1000)});
-        }
-        else{
-          //add update data login
-          update('data',newMember.id,{username:newMember.displayName,join:Math.floor(Date.now() / 1000)});
-        }
-      });
+      if(newUserChannel.name != 'AFK'){
+        //Join to channel
+        channel.send(`${newMember} joins ${newUserChannel}`);
+        findItem('data',newMember.id).then(function(r){
+          if(r == null){
+            //add new data login
+            addRow('data',{id: newMember.id,username:newMember.displayName,join:Math.floor(Date.now() / 1000)});
+          }
+          else{
+            //add update data login
+            update('data',newMember.id,{username:newMember.displayName,join:Math.floor(Date.now() / 1000)});
+          }
+        });        
+      }
     }
   } else if(newUserChannel === undefined){
     if(!oldMember.user.bot){
-      //Leave to channel
-      channel.send(`${oldMember} leaves ${oldMember.voiceChannel}`);
-      findItem('data',oldMember.id).then(function(r){
-        if(r == null){
-          //case impossible
-        }
-        else{
-          //logout and calu duree in chaneel voice
-          var DureeInVoice = Math.floor( Math.floor(Date.now() / 1000) - r.join ) / 60;
-          findItem('lvl',oldMember.id).then(function(r2){
-            if(r2 == null){
-              //first time in chaneel voice
-              addRow('lvl',{id: oldMember.id,username:oldMember.displayName,point:parseInt(DureeInVoice)});
-            }
-            else{
-              //update scorre user
-              update('lvl',oldMember.id,{username:oldMember.displayName,point:parseInt(DureeInVoice) + parseInt(r2.point)});
-            }
-          });
-        }
-      });
+      if(oldUserChannel.name != 'AFK'){
+        //Leave to channel
+        channel.send(`${oldMember} leaves ${oldUserChannel}`);
+        findItem('data',oldMember.id).then(function(r){
+          if(r == null){
+            //case impossible
+          }
+          else{
+            //logout and calu duree in chaneel voice
+            var DureeInVoice = Math.floor( Math.floor(Date.now() / 1000) - r.join ) / 60;
+            findItem('lvl',oldMember.id).then(function(r2){
+              if(r2 == null){
+                //first time in chaneel voice
+                addRow('lvl',{id: oldMember.id,username:oldMember.displayName,point:parseInt(DureeInVoice)});
+              }
+              else{
+                //update scorre user
+                update('lvl',oldMember.id,{username:oldMember.displayName,point:parseInt(DureeInVoice) + parseInt(r2.point)});
+              }
+            });
+          }
+        });        
+      }
     }
   } else if (oldUserChannel !== null && newUserChannel !== null){
     if(newUserChannel.name == 'AFK'){
