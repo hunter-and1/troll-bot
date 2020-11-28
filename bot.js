@@ -121,8 +121,8 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
 client.on('ready', () => {
   console.log('I am ready!');
-  createCollection("lvl");
-  createCollection("data");
+  //createCollection("lvl");
+  //createCollection("data");
   //client.user.setUsername("MD-Gang");
 });
 
@@ -169,6 +169,7 @@ client.on('message', message => {
     }
   }
 
+  /*
   if (message.content.startsWith('?calu')) {
     var math = message.content.split(" ")[1];
     message.channel.send(eval(math));
@@ -177,7 +178,7 @@ client.on('message', message => {
   if (message.content === "listemojis") {
      const emojiList = message.guild.emojis.map((e, x) => (x + ' = ' + e) + ' | ' +e.name).join('\n');
      message.channel.send(emojiList);
-  }
+  } */
 
   if (message.content.startsWith('?vote')) {
     var txt = message.content.replace('?vote','').trim();
