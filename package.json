@@ -7,11 +7,15 @@
     "start": "node bot.js"
   },
   "dependencies": {
-    "discord.js": "11.4.2",
+    "@discordjs/opus": "^0.3.3",
+    "discord.js": "^11.4.2",
+    "ffmpeg": "0.0.4",
     "ffmpeg-binaries": "^3.2.2-3",
+    "fluent-ffmpeg": "^2.1.2",
     "mongodb": "^3.1.13",
     "opusscript": "0.0.6",
     "request": "2.81.0",
-    "sharp": "0.21.3"
+    "sharp": "0.21.3",
+    "ytdl-core": "^4.0.4"
   }
 }
