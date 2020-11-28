@@ -137,7 +137,11 @@ client.on('message', message => {
   reactText(message,"i mean","images/MEAN.png");
   reactText(message,"chriff","images/chriff.png");
 
+  //Good
   reactVoice(message,"ubaybay","./audio/baybay.ogg");
+
+  //Bad
+  reactVoice(message,"usdmkbira","./audio/usdmkbira.ogg");
   reactVoice(message,"usbahlkhir","./audio/sbahlkhir.ogg");
   reactVoice(message,"urelax","./audio/relax.ogg");
   reactVoice(message,"umkhdrat","./audio/mkhdrat.ogg");
@@ -146,6 +150,7 @@ client.on('message', message => {
   reactVoice(message,"3ayzgom","./audio/3ayzgomla.ogg");
   reactVoice(message,"u9tlni","./audio/9tlnitlj.ogg");
   reactVoice(message,"udblil","./audio/hadalil.ogg");
+
   reactVoice(message,"uhmadi","./audio/hmadi.ogg");
   reactVoice(message,"u55","./audio/55.ogg");
   reactVoice(message,"uvitesse","./audio/vitesse.ogg");
