@@ -1,9 +1,9 @@
 //Requires
 const mdbClient = require('mongodb').MongoClient;
 const Discord   = require('discord.js');
-const request   = require('request');
-const sharp     = require('sharp');
-const fs        = require('fs');
+//const request   = require('request');
+//const sharp     = require('sharp');
+//const fs        = require('fs');
 
 // Objects
 const client = new Discord.Client();
@@ -365,6 +365,7 @@ client.on('message', message => {
     }
   }
 
+  /* 
   if (message.content.startsWith("?level")) {
     mdbClient.connect(mongodb_url,{useNewUrlParser: true}, function(err, db) {
       if (err) throw err;
@@ -468,6 +469,8 @@ client.on('message', message => {
 
     });
   }
+
+  */
 });
 
 function reactVoice(msg,codeCall,audioLink)
