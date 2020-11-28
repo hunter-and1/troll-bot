@@ -137,6 +137,7 @@ client.on('message', message => {
   reactText(message,"i mean","images/MEAN.png");
   reactText(message,"chriff","images/chriff.png");
 
+  reactVoice(message,"ubaybay","./audio/baybay.ogg");
   reactVoice(message,"usbahlkhir","./audio/sbahlkhir.ogg");
   reactVoice(message,"urelax","./audio/relax.ogg");
   reactVoice(message,"umkhdrat","./audio/mkhdrat.ogg");
