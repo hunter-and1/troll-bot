@@ -142,6 +142,7 @@ client.on('message', message => {
   reactVoice(message,"usdmkbira","./audio/usdmkbira.ogg");
 
   //Bad
+  reactVoice(message,"udmor","./audio/dmor.ogg");
   reactVoice(message,"usbahlkhir","./audio/sbahlkhir.ogg");
   reactVoice(message,"urelax","./audio/relax.ogg");
   reactVoice(message,"umkhdrat","./audio/mkhdrat.ogg");
