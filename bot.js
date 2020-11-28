@@ -12,6 +12,7 @@ const client = new Discord.Client();
 const mongodb_url = process.env.MONGOLAB_AMBER_URI;
 
 // New User in group
+/* 
 client.on('guildMemberAdd', member => {
   if(member.user.bot){
     let role = member.guild.roles.find(role => role.name === "Bots");
@@ -118,7 +119,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     }
   }
 })
-
+*/
 client.on('ready', () => {
   console.log('I am ready!');
   //createCollection("lvl");
@@ -497,7 +498,7 @@ function reactText(msg,codeCall,imgLink)
   if(msg.content.toLowerCase().indexOf(codeCall) >= 0)
     msg.channel.send({files: [{attachment: imgLink}]});
 }
-
+/* 
 
 function addEspace(text,numberDisponible)
 {
@@ -549,5 +550,5 @@ function getInfoUser(idUser)
   });
 
 }
-
+*/
 client.login(process.env.BOT_TOKEN);
