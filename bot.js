@@ -139,9 +139,9 @@ client.on('message', message => {
 
   //Good
   reactVoice(message,"ubaybay","./audio/baybay.ogg");
+  reactVoice(message,"usdmkbira","./audio/usdmkbira.ogg");
 
   //Bad
-  reactVoice(message,"usdmkbira","./audio/usdmkbira.ogg");
   reactVoice(message,"usbahlkhir","./audio/sbahlkhir.ogg");
   reactVoice(message,"urelax","./audio/relax.ogg");
   reactVoice(message,"umkhdrat","./audio/mkhdrat.ogg");
