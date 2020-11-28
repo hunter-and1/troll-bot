@@ -136,6 +136,12 @@ client.on('message', message => {
   reactText(message,"i mean","images/MEAN.png");
   reactText(message,"chriff","images/chriff.png");
 
+  reactVoice(message,"usbahlkhir","./audio/sbahlkhir.ogg");
+  reactVoice(message,"urelax","./audio/relax.ogg");
+  reactVoice(message,"umkhdrat","./audio/mkhdrat.ogg");
+  reactVoice(message,"uaahaah","./audio/aahaah.ogg");
+  reactVoice(message,"9lbk3amr","./audio/9lbk3amr.ogg");
+  reactVoice(message,"3ayzgom","./audio/3ayzgomla.ogg");
   reactVoice(message,"u9tlni","./audio/9tlnitlj.ogg");
   reactVoice(message,"udblil","./audio/hadalil.ogg");
   reactVoice(message,"uhmadi","./audio/hmadi.ogg");
