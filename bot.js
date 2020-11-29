@@ -487,8 +487,7 @@ function reactVoice(msg,codeCall,audioLink)
     if (VC)
     {
       VC.join().then(connection => {
-          //const dispatcher = connection.playFile(audioLink, { type: 'ogg/opus' });
-          const dispatcher = connection.play('https://filebin.net/ew01vjbova7g9nun/3ayzgomla.ogg?t=sva74rfk', { type: 'ogg/opus' });
+          const dispatcher = connection.playFile(audioLink, { type: 'ogg/opus' });
           dispatcher.on(
             'end', end => {VC.leave();}
           );
