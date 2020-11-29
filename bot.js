@@ -3,7 +3,7 @@ const mdbClient = require('mongodb').MongoClient;
 const Discord   = require('discord.js');
 //const request   = require('request');
 //const sharp     = require('sharp');
-//const fs        = require('fs');
+const fs        = require('fs');
 
 // Objects
 const client = new Discord.Client();
@@ -141,7 +141,6 @@ client.on('message', message => {
   reactVoice(message,"ubaybay","./audio/baybay.ogg");
   reactVoice(message,"usdmkbira","./audio/usdmkbira.ogg");
 
-  //Bad
   reactVoice(message,"udmor","./audio/dmor.ogg");
   reactVoice(message,"usbahlkhir","./audio/sbahlkhir.ogg");
   reactVoice(message,"urelax","./audio/relax.ogg");
@@ -151,7 +150,6 @@ client.on('message', message => {
   reactVoice(message,"3ayzgom","./audio/3ayzgomla.ogg");
   reactVoice(message,"u9tlni","./audio/9tlnitlj.ogg");
   reactVoice(message,"udblil","./audio/hadalil.ogg");
-
   reactVoice(message,"uhmadi","./audio/hmadi.ogg");
   reactVoice(message,"u55","./audio/55.ogg");
   reactVoice(message,"uvitesse","./audio/vitesse.ogg");
@@ -489,7 +487,8 @@ function reactVoice(msg,codeCall,audioLink)
     if (VC)
     {
       VC.join().then(connection => {
-          const dispatcher = connection.playFile(audioLink, { type: 'ogg/opus' });
+          //const dispatcher = connection.playFile(audioLink, { type: 'ogg/opus' });
+          const dispatcher = connection.play(fs.createReadStream(audioLink), { type: 'ogg/opus' });
           dispatcher.on(
             'end', end => {VC.leave();}
           );
